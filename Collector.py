@@ -47,13 +47,13 @@ def init_gpio():
 # mux controlling function
 def mux_control(num):
     if num % 2 == 1:
-        GPIO.setup(path_val[0], 1)
+        GPIO.output(path_val[0], 1)
     if num % 4 > 1:
-        GPIO.setup(path_val[1], 1)
+        GPIO.output(path_val[1], 1)
     if num % 8 > 3:
-        GPIO.setup(path_val[2], 1)
+        GPIO.output(path_val[2], 1)
     if num % 16 > 7:
-        GPIO.setup(path_val[3], 1)
+        GPIO.output(path_val[3], 1)
 
 
 def temp_choice(tmp, x):
