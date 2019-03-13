@@ -107,7 +107,7 @@ def collect_Data():
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
-            temp_value = chan.voltage
+            temp_value = chan.voltage * 1000
             temp_result = (float(temp_value) - 500) * 0.1 # 500 is offset & 0.1 is Output Voltage Scaling
             if temp_result <= -30:
                 temp_result = -30
@@ -178,7 +178,7 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             pm25_value = chan.voltage
-            v = pm25_value / 1000
+            v = pm25_value
             hppcf = 240 * (v ** 6) - 2491.3 * (v ** 5) + 9448.7 * (v ** 4) - 14840 * (v ** 3) + 10684 * (
                     v ** 2) + 2211.8 * v + 7.9623
             ugm3 = .518 + .00274 * hppcf
