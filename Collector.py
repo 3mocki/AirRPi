@@ -27,7 +27,7 @@ temp_n = [[1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70],
           [0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]]
 
 # pin number initialization
-path_val= [11, 13, 15, 29]
+path_val= [17, 27, 22, 5]
 
 numberOfData = 0
 csvRowCount = 0
