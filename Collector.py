@@ -36,28 +36,24 @@ csvRowCount = 0
 def init_gpio():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(path_val[0], GPIO.OUT)
-    GPIO.output(path_val[0], GPIO.LOW)
+    GPIO.output(path_val[0], 0)
     GPIO.setup(path_val[1], GPIO.OUT)
-    GPIO.output(path_val[1], GPIO.LOW)
+    GPIO.output(path_val[1], 0)
     GPIO.setup(path_val[2], GPIO.OUT)
-    GPIO.output(path_val[2], GPIO.LOW)
+    GPIO.output(path_val[2], 0)
     GPIO.setup(path_val[3], GPIO.OUT)
-    GPIO.output(path_val[3], GPIO.LOW)
+    GPIO.output(path_val[3], 0)
 
 # mux controlling function
 def mux_control(num):
     if num % 2 == 1:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(path_val[0], GPIO.HIGH)
+        GPIO.setup(path_val[0], 1)
     if num % 4 > 1:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(path_val[1], GPIO.HIGH)
+        GPIO.setup(path_val[1], 1)
     if num % 8 > 3:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(path_val[2], GPIO.HIGH)
+        GPIO.setup(path_val[2], 1)
     if num % 16 > 7:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(path_val[3], GPIO.HIGH)
+        GPIO.setup(path_val[3], 1)
 
 
 def temp_choice(tmp, x):
