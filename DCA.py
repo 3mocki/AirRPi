@@ -37,10 +37,12 @@ class DCA_class:
 
     def responseTimer(self):
         global response, rt
-        print("Timer Working")
+        # print("Timer Working")
+        print("| SEN | PACK| SSP:DCA-REQ")
         response = requests.post(url_1, json=self.packedMsg())
+        print("| SEN | SEND| REQ | SSP:DCA-REQ | " + str(self.packedMsg()))
         rt = response.elapsed.total_seconds()
-        print('(check)rspTime :' + str(rt))
+        # print('(check)rspTime :' + str(rt))
         return rt
 
     def rcvdMsgPayload(self):
@@ -65,7 +67,7 @@ class DCA_class:
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
             stateCheckResult = self.stateCheck(rcvdType)
-            print("(check)SENSOR STATE : " + str(stateCheckResult))
+            print("| SEN | SET | SIR STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
             if stateCheckResult == RES_SUCCESS:
                 if rcvdType == self.msgType:
                     # if rcvdLength == expLen:
@@ -79,7 +81,8 @@ class DCA_class:
             self.MTI = self.json_response['payload']['mti']
             self.TTI = self.json_response['payload']['tti']
             self.MOBF = self.json_response['payload']['mobf']
-            print("(check)cId :" + str(self.cId))
+            print("| SEN | UNPK| PYLD| SSP:DCA-RSP")
+            # print("(check)cId :" + str(self.cId))
             return RES_SUCCESS
         else:
             return RES_FAILED
@@ -91,14 +94,12 @@ class DCA_class:
                 return self.currentState_2
 
     def init(self):
-        print('(check)current State :' + str(self.currentState_2))
-        print("(check)msgType : " + str(self.msgType))
-        print("(check)eId(=SSN) : " + str(self.eId))
+        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> SSN_Informed_State")
 
         self.responseTimer()
 
         t = response.json()
-        print('(check)Received Msg : ' + str(t))  # check log
+        print("| SEN | RCVD| RSP | " + str(t))
         data = response.text
         self.json_response = json.loads(data)
 
