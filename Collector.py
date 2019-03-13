@@ -46,6 +46,7 @@ def init_gpio():
 
 # mux controlling function
 def mux_control(num):
+    init_gpio()
     if num % 2 == 1:
         GPIO.output(path_val[0], 1)
     if num % 4 > 1:
