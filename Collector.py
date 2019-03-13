@@ -33,16 +33,15 @@ numberOfData = 0
 csvRowCount = 0
 
 # set the gpio pins to OUTPUT mode
-def init_gpio(pin0, pin1, pin2, pin3):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pin0, GPIO.OUT)
-    GPIO.output(pin0, GPIO.LOW)
-    GPIO.setup(pin1, GPIO.OUT)
-    GPIO.output(pin1, GPIO.LOW)
-    GPIO.setup(pin2, GPIO.OUT)
-    GPIO.output(pin2, GPIO.LOW)
-    GPIO.setup(pin3, GPIO.OUT)
-    GPIO.output(pin3, GPIO.LOW)
+def init_gpio():
+    GPIO.setup(path_val[0], GPIO.OUT)
+    GPIO.output(path_val[0], GPIO.LOW)
+    GPIO.setup(path_val[1], GPIO.OUT)
+    GPIO.output(path_val[1], GPIO.LOW)
+    GPIO.setup(path_val[2], GPIO.OUT)
+    GPIO.output(path_val[2], GPIO.LOW)
+    GPIO.setup(path_val[3], GPIO.OUT)
+    GPIO.output(path_val[3], GPIO.LOW)
 
 # mux controlling function
 def mux_control(num):
@@ -98,7 +97,8 @@ def write_rad(numberOfData, csvRowCount):
 def collect_Data():
     # collecting air data
     for x in range(0, 6):
-        init_gpio(path_val[0], path_val[1], path_val[2], path_val[3])
+        GPIO.setmode(GPIO.BCM)
+        init_gpio()
         print('*******************************')
         data[0] = int(time.time())
         if x == 0:
