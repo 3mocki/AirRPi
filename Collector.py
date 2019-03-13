@@ -34,6 +34,7 @@ csvRowCount = 0
 
 # set the gpio pins to OUTPUT mode
 def init_gpio():
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(path_val[0], GPIO.OUT)
     GPIO.output(path_val[0], GPIO.LOW)
     GPIO.setup(path_val[1], GPIO.OUT)
@@ -46,12 +47,16 @@ def init_gpio():
 # mux controlling function
 def mux_control(num):
     if num % 2 == 1:
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(path_val[0], GPIO.HIGH)
     if num % 4 > 1:
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(path_val[1], GPIO.HIGH)
     if num % 8 > 3:
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(path_val[2], GPIO.HIGH)
     if num % 16 > 7:
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(path_val[3], GPIO.HIGH)
 
 
@@ -95,12 +100,11 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def collect_Data():
+    data[0] = int(time.time())
     # collecting air data
     for x in range(0, 6):
-        GPIO.setmode(GPIO.BCM)
         init_gpio()
         print('*******************************')
-        data[0] = int(time.time())
         if x == 0:
             # measuring temperature
             mux_control(x)
@@ -108,7 +112,6 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             temp_value = chan.voltage * 1000
-            print(str(temp_value))
             temp_result = (float(temp_value) - 500) * 0.1 # 500 is offset & 0.1 is Output Voltage Scaling
             if temp_result <= -30:
                 temp_result = -30
