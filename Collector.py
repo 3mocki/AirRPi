@@ -108,6 +108,7 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             temp_value = chan.voltage * 1000
+            print(str(temp_value))
             temp_result = (float(temp_value) - 500) * 0.1 # 500 is offset & 0.1 is Output Voltage Scaling
             if temp_result <= -30:
                 temp_result = -30
