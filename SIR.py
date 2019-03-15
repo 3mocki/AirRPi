@@ -57,7 +57,7 @@ class SIR_class:
             self.sspSirReqRetries += 1
             self.responseTimer()  # 3.2 => go to responseTimer 2.0
             if self.sspSirReqRetries == 5:
-                self.statecheck()
+                self.stateChange()
                 print("Maximum Retries => Quit Service")
                 quit()
         else:
@@ -74,8 +74,9 @@ class SIR_class:
         # expLen = rcvdLength - msg.header_size
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
-            print("| SEN | SET | SIR STATE | " + str(self.stateCheck()) + "=> HALF_SSN_INFORMED_STATE")
-            if self.stateCheck == RES_SUCCESS:
+            stateCheck = self.stateChange()
+            print("| SEN | SET | SIR STATE | " + str(stateCheck) + "=> HALF_SSN_INFORMED_STATE")
+            if self.stateChange() == RES_SUCCESS:
                 if rcvdType == self.msgType:
                     # if rcvdLength == expLen:
                     return rcvdPayload
@@ -94,11 +95,14 @@ class SIR_class:
                 print("(check) quit")
                 quit()
 
-    def stateCheck(self):
+    def stateChange(self):
         if self.msgType == SSP_SIRRSP:
             if self.currentState == IDLE_STATE:
                 self.currentState = HALF_SSN_INFORMED_STATE
                 return self.currentState
+        elif self.sspSirReqRetries == 5:
+            self.currentState = IDLE_STATE
+            return self.currentState
 
     def init(self):
 
