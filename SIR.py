@@ -39,6 +39,8 @@ class SIR_class:
 
     def responseTimer(self):
         global response, rt
+        # Before Send SSP: SIR-REQ
+        print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         # print("Timer Working")
         print("| SEN | PACK| SSP:SIR_REQ")
         response = requests.post(url_1, json=self.packedMsg())  # 2.2 fnSendMsg => json
@@ -100,7 +102,6 @@ class SIR_class:
                 return self.currentState
 
     def init(self):
-        print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
 
         self.responseTimer()
 

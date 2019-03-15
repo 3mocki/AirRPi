@@ -15,8 +15,8 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 # timestamp, temp, no2, o3, co, so2, pm25, pm10, i, m
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-# index
-row = ['numberOfData', 'WE', 'AE']
+# # index
+# row = ['numberOfData', 'WE', 'AE']
 
 # WE, AE data
 no2_Raw_data = [0, 0, 0]
@@ -105,18 +105,18 @@ def write_rad(numberOfData, csvRowCount):
     return numberOfData, csvRowCount
 
 
-def init_row():
-    f = open('CO_RAW.csv', 'a', newline='')
-    wr = csv.writer(f)
-    wr.writerow(row)
-    f.close()
-
-
-def write_raw():
-    f = open('CO_RAW.csv', 'a', newline='')
-    wr = csv.writer(f)
-    wr.writerow(co_Raw_data)
-    f.close()
+# def init_row():
+#     f = open('CO_RAW.csv', 'a', newline='')
+#     wr = csv.writer(f)
+#     wr.writerow(row)
+#     f.close()
+#
+#
+# def write_raw():
+#     f = open('CO_RAW.csv', 'a', newline='')
+#     wr = csv.writer(f)
+#     wr.writerow(co_Raw_data)
+#     f.close()
 
 
 def collect_Data():
@@ -255,15 +255,15 @@ if __name__ == '__main__':
     db3.createTable()
 
     try:
-        init_row()
+        # init_row()
         while True:
             data[8] = numberOfData
             data[9] = csvRowCount
 
-            no2_Raw_data[0] = numberOfData
-            o3_Raw_data[0] = numberOfData
-            co_Raw_data[0] = numberOfData
-            so2_Raw_data[0] = numberOfData
+            # no2_Raw_data[0] = numberOfData
+            # o3_Raw_data[0] = numberOfData
+            # co_Raw_data[0] = numberOfData
+            # so2_Raw_data[0] = numberOfData
 
             print('Data Number:' + str(data[8]))
             print('CSVR Number:' + str(data[9]))
@@ -280,7 +280,7 @@ if __name__ == '__main__':
             db2.commitDB()
             db3.commitDB()
 
-            write_raw()
+            # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
     except KeyboardInterrupt:
