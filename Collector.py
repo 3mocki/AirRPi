@@ -106,10 +106,10 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def write_raw(numberOfData):
-    f = open('CO_RAW.csv', 'a', newline='')
+    f = open('SO2_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
-    wr.writerow(co_Raw_data)
+    wr.writerow(so2_Raw_data)
     f.close()
 
 
@@ -233,7 +233,7 @@ if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
     # delete past air db file
-    os.system("sudo rm -r hour1.db hour8.db hour24.db CO_RAW.csv")
+    os.system("sudo rm -r hour1.db hour8.db hour24.db SO2_RAW.csv")
 
     # create each db file
     db = MySqlite_1('hour1')
