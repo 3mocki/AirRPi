@@ -6,6 +6,7 @@ from State import *
 
 class DCA_class:
     currentState_2 = SSN_INFORMED_STATE
+    sspDCAReqRetries = 0
     msgType = SSP_DCAREQ
 
     # geoData
@@ -37,10 +38,13 @@ class DCA_class:
 
     def responseTimer(self):
         global response, rt
+        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> SSN_Informed_State")
         # print("Timer Working")
         print("| SEN | PACK| SSP:DCA-REQ")
         response = requests.post(url_1, json=self.packedMsg())
         print("| SEN | SEND| REQ | SSP:DCA-REQ | " + str(self.packedMsg()))
+        self.stateChange_3()
+        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> Half_CID_Allocated_State")
         rt = response.elapsed.total_seconds()
         # print('(check)rspTime :' + str(rt))
         return rt
@@ -48,11 +52,16 @@ class DCA_class:
     def rcvdMsgPayload(self):
         if rt > 5:
             print("Retry Checking response time")
+            self.sspDcaReqRetries += 1
             self.responseTimer()
+            if self.sspDcaReqRetries == 5:
+                self.stateChange_2(self.sspDcaReqRetries)
+                print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> IDLE State")
+                quit()
         else:
             self.verifyMsgHeader()
             if rcvdPayload != RES_FAILED:
-                print("check")
+                # print("check")
                 return rcvdPayload
             else:
                 self.rcvdMsgPaylaod()
@@ -66,7 +75,7 @@ class DCA_class:
         # expLen = rcvdLength - msg.header_size
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
-            stateCheckResult = self.stateCheck(rcvdType)
+            stateCheckResult = self.stateChange(rcvdType)
             print("| SEN | SET | SIR STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
             if stateCheckResult == RES_SUCCESS:
                 if rcvdType == self.msgType:
@@ -87,14 +96,25 @@ class DCA_class:
         else:
             return RES_FAILED
 
-    def stateCheck(self, msgType):
-        if msgType == SSP_DCARSP:
-            if self.currentState_2 == SSN_INFORMED_STATE:
-                self.currentState_2 = HALF_CID_ALLOCATED_STATE
+    def stateChange(self, rcvdData):
+        if rcvdData == SSP_DCARSP:
+            if self.currentState_2 == 'HALF_CID_ALLOCATED_STATE':
+                self.currentState_2 = HALF_CID_INFORMED_STATE
                 return self.currentState_2
 
+    def stateChange_2(self, Retries):
+        if Retries == 5:
+            self.currentState_2 = IDLE_STATE
+            return self.currentState_2
+        else:
+            self.currentState_2 = SSN_INFORMED_STATE
+            return self.currentState_2
+
+    def stateChange_3(self):
+        self.currentState_2 = 'HALF_CID_ALLOCATED_STATE'
+        return self.currentState_2
+
     def init(self):
-        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> SSN_Informed_State")
 
         self.responseTimer()
 
