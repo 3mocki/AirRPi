@@ -15,6 +15,9 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 # timestamp, temp, no2, o3, co, so2, pm25, pm10, i, m
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+# index
+row = ['numberOfData', 'WE', 'AE']
+
 # WE, AE data
 raw_data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -102,15 +105,9 @@ def write_rad(numberOfData, csvRowCount):
 def write_raw(numberOfData):
     f = open('NO2_RAW.csv', 'w', newline='')
     wr = csv.writer(f)
-    wr.writerow('numberOfData')
-    wr.writerow('WE')
-    wr.writerow('AE')
-    wr.writerow(raw_data[0])
-    wr.writerow(raw_data[1])
-
+    wr.writerow(row)
+    wr.writerow(raw_data[0], raw_data[1])
     f.close()
-
-
 
 
 def collect_Data():
