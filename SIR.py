@@ -74,7 +74,7 @@ class SIR_class:
         # expLen = rcvdLength - msg.header_size
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
-            stateCheck = self.stateChange()
+            stateCheck = self.stateChange(rcvdType)
             print("| SEN | SET | SIR STATE | " + str(stateCheck) + "=> HALF_SSN_INFORMED_STATE")
             if self.stateChange() == RES_SUCCESS:
                 if rcvdType == self.msgType:
@@ -95,8 +95,8 @@ class SIR_class:
                 print("(check) quit")
                 quit()
 
-    def stateChange(self):
-        if self.msgType == SSP_SIRRSP:
+    def stateChange(self, msgType):
+        if msgType == SSP_SIRRSP:
             if self.currentState == IDLE_STATE:
                 self.currentState = HALF_SSN_INFORMED_STATE
                 return self.currentState
