@@ -196,7 +196,7 @@ def collect_Data():
                 data[5] = so2
                 print(air_list[x - 1] + ' : ' + str(so2) + 'ppb')
 
-            print('n Table :' + str(temp))
+            print('n Table = > ' + str(temp))
 
         elif x == 5:
             mux_control(x * 2 - 1)
