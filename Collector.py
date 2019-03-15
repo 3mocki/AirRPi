@@ -106,16 +106,16 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def init_row():
-    f = open('NO2_RAW.csv', 'a', newline='')
+    f = open('O3_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
     f.close()
 
 
 def write_raw(numberOfData):
-    f = open('NO2_RAW.csv', 'a', newline='')
+    f = open('O3_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
-    wr.writerow(no2_Raw_data)
+    wr.writerow(o3_Raw_data)
     f.close()
 
 
