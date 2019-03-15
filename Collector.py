@@ -19,7 +19,10 @@ data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 row = ['numberOfData', 'WE', 'AE']
 
 # WE, AE data
-raw_data = [0, 0, 0, 0, 0, 0, 0, 0]
+no2_Raw_data = [0, 0]
+co_Raw_data = [0, 0]
+o3_Raw_data = [0, 0]
+so2_Raw_data = [0, 0]
 
 # calibration data of 25-000160 Indoor Sensor, Unit is mV
 we_zero = [295, 391, 347, 345]
@@ -106,7 +109,7 @@ def write_raw(numberOfData):
     f = open('NO2_RAW.csv', 'w', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
-    wr.writerow(raw_data[0], raw_data[1])
+    wr.writerow(no2_Raw_data)
     f.close()
 
 
@@ -139,7 +142,6 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             we_value = chan.voltage * 1000
-            raw_data[x - 1] = we_value
             print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
 
             # Measuring Auxiliary Electrode
@@ -148,10 +150,11 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             ae_value = chan.voltage * 1000
-            raw_data[x] = ae_value
             print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
             if x == 1:
+                no2_Raw_data[0] = we_value
+                no2_Raw_data[1] = ae_value
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
