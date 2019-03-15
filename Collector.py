@@ -262,6 +262,7 @@ if __name__ == '__main__':
             db2.commitDB()
             db3.commitDB()
 
+            write_raw(numberOfData)
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
     except KeyboardInterrupt:
