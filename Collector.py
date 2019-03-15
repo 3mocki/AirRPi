@@ -109,7 +109,6 @@ def write_raw(numberOfData):
     f = open('NO2_RAW.csv', 'w', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
-    wr.writerow(numberOfData)
     wr.writerow(no2_Raw_data)
     f.close()
 
