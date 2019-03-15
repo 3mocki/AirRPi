@@ -2,6 +2,7 @@ import requests, json
 from Msgtype import *
 from ResultCode import *
 from globalVar import *
+from State import *
 
 class DCD_class:
 

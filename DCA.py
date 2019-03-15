@@ -53,11 +53,12 @@ class DCA_class:
         if rt > 5:
             print("Retry Checking response time")
             self.sspDcaReqRetries += 1
-            self.responseTimer()
             if self.sspDcaReqRetries == 5:
                 self.stateChange_2(self.sspDcaReqRetries)
                 print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> IDLE State")
                 quit()
+            else:
+                self.responseTimer()
         else:
             self.verifyMsgHeader()
             if rcvdPayload != RES_FAILED:

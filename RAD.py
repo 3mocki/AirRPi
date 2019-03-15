@@ -1,11 +1,14 @@
 import requests, json, time, csv
 from Msgtype import *
-# from ResultCode import *
+from ResultCode import *
 from globalVar import *
 from Sender import *
+from State import *
 
 
 class RAD_class:
+    currentState_3 = CID_INFORMED_STATE
+    sspRadTrnRetries = 0
     row = [[], [], [], 0, 0, 0, 0, 0, 0, 0]
 
     # msgHeader[0]
@@ -33,20 +36,31 @@ class RAD_class:
         }
         return packedMsg
 
-    def setTimer(self):
+    def responseTimer(self):
         global response
-        print("Timer Working")
-        response = requests.post(url_2, json=self.packedMsg())
-        print('(check)State in Sensor : CID_ALLOCATED_STATE')
-        # print('RAD-ACK => ', response.json())
-        rt = response.elapsed.total_seconds()
-        print('(check)rspTime :' + str(rt))
-        return rt
+        # print("Timer Working")
+        print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> CID INFORMED STATE")
+        if self.packedMsg() == None:
+            quit()
+        else:
+            response = requests.post(url_2, json=self.packedMsg())
+            print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.packedMsg()))
+            self.stateChange()
+            print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> CID ALLOCATED STATE")
+            rt = response.elapsed.total_seconds()
+            # print('(check)rspTime :' + str(rt))
+            return rt
 
-    # def rcvdMsg(self):
+    # def rcvdMsgPayload(self):
     #     if self.rt > 5:
     #         print("Retry Checking response time")
-    #         self.setTimer()  # 3.2
+    #         self.sspRadTrnRetries += 1
+    #         if self.sspRadTrnRetries == 5:
+    #             self.stateChange_2()
+    #             print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> IDLE State")
+    #             quit()
+    #         else:
+    #             self.responseTimer()
     #     else:
     #         self.verifyMsgHeader()
     #         if rcvdPayload != RES_FAILED:
@@ -54,8 +68,8 @@ class RAD_class:
     #             self.rt = 0
     #             return rcvdPayload
     #         else:
-    #             self.rcvdMsg()
-
+    #             self.rcvdMsgPayload()
+    #
     # def verifyMsgHeader(self):
     #     global rcvdPayload
     #     rcvdType = self.json_response['header']['msgType']  # rcvdMsgType
@@ -65,8 +79,9 @@ class RAD_class:
     #     # expLen = rcvdLength - msg.header_size
     #
     #     if rcvdeId == self.eId:  # rcvdEndpointId = SSN
-    #         stateCheck = 1
-    #         if stateCheck == RES_SUCCESS:
+    #         stateCheckResult = self.stateChange_3(rcvdType)
+    #         print("| SEN | SET | SIR STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
+    #         if stateCheckResult == RES_SUCCESS:
     #             if rcvdType == self.msgtype:
     #                 # if rcvdLength == expLen:
     #                 return rcvdPayload
@@ -77,6 +92,10 @@ class RAD_class:
     #     rcvdMsgPayload = self.json_response['payload']
     #     print(str(self.rcvdMsgPayload))
 
+    def stateChange(self):
+        self.currentState_3 = 'CID ALLOCATED STATE'
+    def stateChange_2(self):
+        self.currentState_3 = IDLE_STATE
     def read_RAD(self):
 
         f = open('temp_RAD.csv', 'r')
@@ -108,10 +127,11 @@ class RAD_class:
             self.row[x] = air_sender[x]
             print('RAD_class self.row[' + str(x) + '] => ' + str(self.row[x]))
 
-        print("(check)msgtype : " + str(self.msgtype))
-        print("(check)eId(=cId) : " + str(self.eId))
-
-        self.setTimer()
+        self.responseTimer()
 
         t = response.json()
-        print('(check)Received Msg : ' + str(t))  # check log
+        print("| SEN | RCVD| RSP | " + str(t))
+        data = response.text
+        self.json_response = json.loads(data)
+        # self.rcvdMsgPayload()
+        # self.UnpackMsg()
