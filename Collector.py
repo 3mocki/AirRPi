@@ -15,6 +15,9 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 # timestamp, temp, no2, o3, co, so2, pm25, pm10, i, m
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+# WE, AE data
+raw_data = [0, 0, 0, 0, 0, 0, 0, 0]
+
 # calibration data of 25-000160 Indoor Sensor, Unit is mV
 we_zero = [295, 391, 347, 345]
 ae_zero = [282, 390, 296, 255]
@@ -96,6 +99,20 @@ def write_rad(numberOfData, csvRowCount):
     return numberOfData, csvRowCount
 
 
+def write_raw(numberOfData):
+    f = open('NO2_RAW.csv', 'w', newline='')
+    wr = csv.writer(f)
+    wr.writerow('numberOfData')
+    wr.writerow('WE')
+    wr.writerow('AE')
+    wr.writerow(raw_data[0])
+    wr.writerow(raw_data[1])
+
+    f.close()
+
+
+
+
 def collect_Data():
     data[0] = int(time.time())
     # collecting air data
@@ -125,6 +142,7 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             we_value = chan.voltage * 1000
+            raw_data[x - 1] = we_value
             print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
 
             # Measuring Auxiliary Electrode
@@ -133,6 +151,7 @@ def collect_Data():
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
             ae_value = chan.voltage * 1000
+            raw_data[x] = ae_value
             print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
             if x == 1:
