@@ -106,10 +106,10 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def write_raw(numberOfData):
-    f = open('NO2_RAW.csv', 'a', newline='')
+    f = open('O3_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
-    wr.writerow(no2_Raw_data)
+    wr.writerow(o3_Raw_data)
     f.close()
 
 
@@ -164,6 +164,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(no2) + 'ppb')
 
             elif x == 2:
+                o3_Raw_data[1] = round(we_value, 2)
+                o3_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -173,6 +175,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(o3) + 'ppm')
 
             elif x == 3:
+                co_Raw_data[1] = round(we_value, 2)
+                co_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -182,6 +186,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(co) + 'ppm')
 
             elif x == 4:
+                so2_Raw_data[1] = round(we_value, 2)
+                so2_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -227,7 +233,7 @@ if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
     # delete past air db file
-    os.system("sudo rm -r hour1.db hour8.db hour24.db NO2_RAW.csv")
+    os.system("sudo rm -r hour1.db hour8.db hour24.db CO_RAW.csv")
 
     # create each db file
     db = MySqlite_1('hour1')
@@ -248,6 +254,9 @@ if __name__ == '__main__':
             data[9] = csvRowCount
 
             no2_Raw_data[0] = numberOfData
+            o3_Raw_data[0] = numberOfData
+            co_Raw_data[0] = numberOfData
+            so2_Raw_data[0] = numberOfData
 
             print('Data Number:' + str(data[8]))
             print('CSVR Number:' + str(data[9]))
