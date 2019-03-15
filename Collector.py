@@ -239,7 +239,7 @@ if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
     # delete past air db file
-    os.system("sudo rm -r hour1.db hour8.db hour24.db SO2_RAW.csv")
+    os.system("sudo rm -r hour1.db hour8.db hour24.db")
 
     # create each db file
     db = MySqlite_1('hour1')
