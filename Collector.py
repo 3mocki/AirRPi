@@ -105,11 +105,17 @@ def write_rad(numberOfData, csvRowCount):
     return numberOfData, csvRowCount
 
 
-def write_raw(numberOfData):
-    f = open('SO2_RAW.csv', 'a', newline='')
+def init_row():
+    f = open('NO2_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
     wr.writerow(row)
-    wr.writerow(so2_Raw_data)
+    f.close()
+
+
+def write_raw(numberOfData):
+    f = open('NO2_RAW.csv', 'a', newline='')
+    wr = csv.writer(f)
+    wr.writerow(no2_Raw_data)
     f.close()
 
 
@@ -249,6 +255,7 @@ if __name__ == '__main__':
     db3.createTable()
 
     try:
+        init_row()
         while True:
             data[8] = numberOfData
             data[9] = csvRowCount
