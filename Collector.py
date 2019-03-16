@@ -115,7 +115,7 @@ def init_row():
 def write_raw():
     f = open('NO2_RAW.csv', 'a', newline='')
     wr = csv.writer(f)
-    wr.writerow(co_Raw_data)
+    wr.writerow(no2_Raw_data)
     f.close()
 
 
