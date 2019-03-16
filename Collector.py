@@ -15,8 +15,8 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 # timestamp, temp, no2, o3, co, so2, pm25, pm10, i, m
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-# # index
-# row = ['numberOfData', 'WE', 'AE']
+# index
+row = ['numberOfData', 'WE', 'AE']
 
 # WE, AE data
 no2_Raw_data = [0, 0, 0]
@@ -105,18 +105,18 @@ def write_rad(numberOfData, csvRowCount):
     return numberOfData, csvRowCount
 
 
-# def init_row():
-#     f = open('CO_RAW.csv', 'a', newline='')
-#     wr = csv.writer(f)
-#     wr.writerow(row)
-#     f.close()
-#
-#
-# def write_raw():
-#     f = open('CO_RAW.csv', 'a', newline='')
-#     wr = csv.writer(f)
-#     wr.writerow(co_Raw_data)
-#     f.close()
+def init_row():
+    f = open('CO_RAW.csv', 'a', newline='')
+    wr = csv.writer(f)
+    wr.writerow(row)
+    f.close()
+
+
+def write_raw():
+    f = open('CO_RAW.csv', 'a', newline='')
+    wr = csv.writer(f)
+    wr.writerow(co_Raw_data)
+    f.close()
 
 
 def collect_Data():
@@ -131,7 +131,7 @@ def collect_Data():
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
-            temp_value = chan.voltage * 1000
+            temp_value = chan.voltage * 1000 / 0.1525
             temp_result = (float(temp_value) - 500) * 0.1 # 500 is offset & 0.1 is Output Voltage Scaling
             if temp_result <= -30:
                 temp_result = -30
@@ -147,7 +147,7 @@ def collect_Data():
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
-            we_value = chan.voltage * 1000
+            we_value = chan.voltage * 1000 / 0.1525
             print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
 
             # Measuring Auxiliary Electrode
@@ -155,7 +155,7 @@ def collect_Data():
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             time.sleep(0.1)
-            ae_value = chan.voltage * 1000
+            ae_value = chan.voltage * 1000 / 0.1525
             print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
             if x == 1:
@@ -255,15 +255,15 @@ if __name__ == '__main__':
     db3.createTable()
 
     try:
-        # init_row()
+        init_row()
         while True:
             data[8] = numberOfData
             data[9] = csvRowCount
 
-            # no2_Raw_data[0] = numberOfData
-            # o3_Raw_data[0] = numberOfData
-            # co_Raw_data[0] = numberOfData
-            # so2_Raw_data[0] = numberOfData
+            no2_Raw_data[0] = numberOfData
+            o3_Raw_data[0] = numberOfData
+            co_Raw_data[0] = numberOfData
+            so2_Raw_data[0] = numberOfData
 
             print('Data Number:' + str(data[8]))
             print('CSVR Number:' + str(data[9]))
@@ -280,7 +280,7 @@ if __name__ == '__main__':
             db2.commitDB()
             db3.commitDB()
 
-            # write_raw()
+            write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
     except KeyboardInterrupt:
