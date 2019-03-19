@@ -159,8 +159,8 @@ def collect_Data():
             print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
             if x == 1:
-                no2_Raw_data[1] = round(we_value, 2)
-                no2_Raw_data[2] = round(ae_value, 2)
+                # no2_Raw_data[1] = round(we_value, 2)
+                # no2_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -170,8 +170,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(no2) + 'ppb')
 
             elif x == 2:
-                o3_Raw_data[1] = round(we_value, 2)
-                o3_Raw_data[2] = round(ae_value, 2)
+                # o3_Raw_data[1] = round(we_value, 2)
+                # o3_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -181,8 +181,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(o3) + 'ppm')
 
             elif x == 3:
-                co_Raw_data[1] = round(we_value, 2)
-                co_Raw_data[2] = round(ae_value, 2)
+                # co_Raw_data[1] = round(we_value, 2)
+                # co_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
@@ -192,8 +192,8 @@ def collect_Data():
                 print(air_list[x - 1] + ' : ' + str(co) + 'ppm')
 
             elif x == 4:
-                so2_Raw_data[1] = round(we_value, 2)
-                so2_Raw_data[2] = round(ae_value, 2)
+                # so2_Raw_data[1] = round(we_value, 2)
+                # so2_Raw_data[2] = round(ae_value, 2)
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
                 ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
