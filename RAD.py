@@ -46,9 +46,9 @@ class RAD_class:
             response = requests.post(url_2, json=self.packedMsg())
             print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.packedMsg()))
             self.stateChange()
-            print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> CID ALLOCATED STATE")
+            print("| SEN | SET | RAD STATE | " + str(self.currentState_3))
             rt = response.elapsed.total_seconds()
-            # print('(check)rspTime :' + str(rt))
+            print('Response Time : ' + str(rt) + 'sec')
             return rt
 
     # def rcvdMsgPayload(self):
