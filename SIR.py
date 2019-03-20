@@ -46,7 +46,7 @@ class SIR_class:
         response = requests.post(url_1, json=self.packedMsg())  # 2.2 fnSendMsg => json
         print("| SEN | SEND| REQ | SSP:SIR-REQ | " + str(self.packedMsg()))
         rt = response.elapsed.total_seconds()
-        # print('(check)rspTime :' + str(rt))
+        print('Response Time : ' + str(rt) + 'sec')
         return rt
 
     # 3.1 fnRecvMsg()
@@ -92,7 +92,7 @@ class SIR_class:
             if self.json_response['payload']['resultCode'] == RESCODE_SSP_SIR_CONFLICT_OF_TEMPORARY_SENSOR_ID:
                 self.responseTimer()
             else:
-                print("(check) quit")
+                print("End System")
                 quit()
 
     def stateChange(self, rcvdData):

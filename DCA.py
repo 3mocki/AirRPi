@@ -46,7 +46,7 @@ class DCA_class:
         self.stateChange_3()
         print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> Half_CID_Allocated_State")
         rt = response.elapsed.total_seconds()
-        # print('(check)rspTime :' + str(rt))
+        print('Response Time : ' + str(rt) + 'sec')
         return rt
 
     def rcvdMsgPayload(self):
@@ -77,7 +77,7 @@ class DCA_class:
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
             stateCheckResult = self.stateChange(rcvdType)
-            print("| SEN | SET | SIR STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
+            print("| SEN | SET | DCA STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
             if stateCheckResult == RES_SUCCESS:
                 if rcvdType == self.msgType:
                     # if rcvdLength == expLen:
