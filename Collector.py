@@ -120,7 +120,6 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def collect_Data():
-    data[0] = int(time.time())
     # collecting air data
     for x in range(0, 6):
         init_gpio()
@@ -222,7 +221,7 @@ def collect_Data():
 
 def save_to_DS(r, z):
     if r % 10 == z:
-        air_sender[z][0] = data[0]  # timestamp
+        air_sender[z][0] = int(time.time())  # timestamp
         air_sender[z][5] = data[1]  # temp
         air_sender[z][6] = data[2]  # no2
         air_sender[z][7] = data[3]  # o3
