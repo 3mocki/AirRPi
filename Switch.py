@@ -8,10 +8,12 @@ def init_Switch():
 
 
 if __name__== '__main__':
-    print("This is switch for operating sensor.")
+    print("This is switch for operating & communicating sensor.")
     print("Please push the button! :)")
     init_Switch()
     while True:
         if GPIO.input(6) == 1:
             print("===== Operating Sensor =====")
             os.system("python3 Collector.py")
+            os.system("xdotool key ctrl+shift+n")
+            os.system("ls")
