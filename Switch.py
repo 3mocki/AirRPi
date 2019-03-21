@@ -1,6 +1,7 @@
 import os
 import RPi.GPIO as GPIO
 
+
 def init_Switch():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(6, GPIO.IN)
