@@ -13,7 +13,6 @@ if __name__== '__main__':
     init_Switch()
     while True:
         if GPIO.input(6) == 1:
+            os.system("xdotool key ctrl+shift+n")
             print("===== Operating Sensor =====")
             os.system("python3 Collector.py")
-            os.system("xdotool key ctrl+shift+n")
-            os.system("ls")
