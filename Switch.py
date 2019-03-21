@@ -1,6 +1,7 @@
 import os
 import RPi.GPIO as GPIO
 
+count=0
 
 def init_Switch():
     GPIO.setmode(GPIO.BCM)
@@ -14,5 +15,7 @@ if __name__== '__main__':
     while True:
         if GPIO.input(6) == 1:
             os.system("xdotool key ctrl+shift+n")
-            print("===== Operating Sensor =====")
             os.system("python3 Collector.py")
+            count+=1
+            if count == 1:
+                os.system("python3 Switch.py")
