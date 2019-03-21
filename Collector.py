@@ -216,7 +216,6 @@ def collect_Data():
             print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
             print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
             print('*******************************')
-    time.sleep(1)
 
 
 def save_to_DS(r, z):
@@ -265,6 +264,7 @@ if __name__ == '__main__':
             print('CSVR Number:' + str(data[9]))
 
             collect_Data()
+            time.sleep(1)
             save_to_DS(numberOfData, csvRowCount)
 
             db.insertData(data[0], data[1], data[2], data[3], data[5], data[8],
