@@ -38,7 +38,7 @@ class SIR_class:
         return packedMsg # 1.6 return packedMsg
 
     def responseTimer(self):
-        global response
+        global response,rt
         # Before Send SSP: SIR-REQ
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         # print("Timer Working")
@@ -51,7 +51,7 @@ class SIR_class:
     # 3.1 fnRecvMsg()
     def rcvdMsgPayload(self):
         # Set to Default value in Timer
-        if self.rt > 5:
+        if rt > 5:
             print("Retry Checking response time")
             self.sspSirReqRetries += 1
             self.responseTimer()  # 3.2 => go to responseTimer 2.0
