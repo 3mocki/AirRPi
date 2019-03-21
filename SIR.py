@@ -38,7 +38,7 @@ class SIR_class:
         return packedMsg # 1.6 return packedMsg
 
     def responseTimer(self):
-        global response, rt
+        global response
         # Before Send SSP: SIR-REQ
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         # print("Timer Working")
@@ -47,12 +47,11 @@ class SIR_class:
         print("| SEN | SEND| REQ | SSP:SIR-REQ | " + str(self.packedMsg()))
         rt = response.elapsed.total_seconds()
         print('Response Time : ' + str(rt) + 'sec')
-        return rt
 
     # 3.1 fnRecvMsg()
     def rcvdMsgPayload(self):
         # Set to Default value in Timer
-        if rt > 5:
+        if self.rt > 5:
             print("Retry Checking response time")
             self.sspSirReqRetries += 1
             self.responseTimer()  # 3.2 => go to responseTimer 2.0
@@ -92,7 +91,7 @@ class SIR_class:
             if self.json_response['payload']['resultCode'] == RESCODE_SSP_SIR_CONFLICT_OF_TEMPORARY_SENSOR_ID:
                 self.responseTimer()
             else:
-                print("End System")
+                print("System shut down. Check the result code in response payload.")
                 quit()
 
     def stateChange(self, rcvdData):

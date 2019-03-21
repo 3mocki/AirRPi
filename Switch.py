@@ -13,5 +13,5 @@ if __name__== '__main__':
     init_Switch()
     while True:
         if GPIO.input(6) == 1:
-            os.system("xdotool ctrl+shift+n")
+            os.system("xdotool key ctrl+shift+n")
             os.system("python3 Collector.py")
