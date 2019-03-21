@@ -41,7 +41,6 @@ class SIR_class:
         global response,rt
         # Before Send SSP: SIR-REQ
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
-        # print("Timer Working")
         print("| SEN | PACK| SSP:SIR_REQ")
         response = requests.post(url_1, json=self.packedMsg())  # 2.2 fnSendMsg => json
         print("| SEN | SEND| REQ | SSP:SIR-REQ | " + str(self.packedMsg()))
@@ -52,7 +51,7 @@ class SIR_class:
     def rcvdMsgPayload(self):
         # Set to Default value in Timer
         if rt > 5:
-            print("Retry Checking response time")
+            print("Response time is exceeded 5 sec")
             self.sspSirReqRetries += 1
             self.responseTimer()  # 3.2 => go to responseTimer 2.0
             if self.sspSirReqRetries == 5:

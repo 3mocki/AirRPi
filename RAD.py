@@ -49,7 +49,6 @@ class RAD_class:
             print("| SEN | SET | RAD STATE | " + str(self.currentState_3))
             rt = response.elapsed.total_seconds()
             print('Response Time : ' + str(rt) + 'sec')
-            return rt
 
     # def rcvdMsgPayload(self):
     #     if self.rt > 5:

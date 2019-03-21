@@ -130,7 +130,6 @@ def collect_Data():
             mux_control(x)
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
-            time.sleep(0.1)
             temp_value = chan.voltage * 1000
             temp_result = (float(temp_value) - 500) * 0.1 # 500 is offset & 0.1 is Output Voltage Scaling
             if temp_result <= -30:
@@ -146,7 +145,6 @@ def collect_Data():
             mux_control(x * 2 - 1)
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
-            time.sleep(0.1)
             we_value = chan.voltage * 1000
             print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
 
@@ -154,7 +152,6 @@ def collect_Data():
             mux_control(x * 2)
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
-            time.sleep(0.1)
             ae_value = chan.voltage * 1000
             print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
@@ -208,7 +205,6 @@ def collect_Data():
             mux_control(x * 2 - 1)
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
-            time.sleep(0.1)
             pm25_value = chan.voltage
             v = pm25_value
             hppcf = 240 * (v ** 6) - 2491.3 * (v ** 5) + 9448.7 * (v ** 4) - 14840 * (v ** 3) + 10684 * (
@@ -221,6 +217,7 @@ def collect_Data():
             print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
             print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
             print('*******************************')
+    time.sleep(1)
 
 
 def save_to_DS(r, z):

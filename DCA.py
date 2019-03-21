@@ -39,7 +39,6 @@ class DCA_class:
     def responseTimer(self):
         global response, rt
         print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> SSN_Informed_State")
-        # print("Timer Working")
         print("| SEN | PACK| SSP:DCA-REQ")
         response = requests.post(url_1, json=self.packedMsg())
         print("| SEN | SEND| REQ | SSP:DCA-REQ | " + str(self.packedMsg()))
@@ -47,22 +46,21 @@ class DCA_class:
         print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> Half_CID_Allocated_State")
         rt = response.elapsed.total_seconds()
         print('Response Time : ' + str(rt) + 'sec')
-        return rt
 
     def rcvdMsgPayload(self):
         if rt > 5:
-            print("Retry Checking response time")
+            print("Response time is exceeded 5 sec")
             self.sspDcaReqRetries += 1
             if self.sspDcaReqRetries == 5:
                 self.stateChange_2(self.sspDcaReqRetries)
                 print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> IDLE State")
+                print("Maximum Retries => Quit Service")
                 quit()
             else:
                 self.responseTimer()
         else:
             self.verifyMsgHeader()
             if rcvdPayload != RES_FAILED:
-                # print("check")
                 return rcvdPayload
             else:
                 self.rcvdMsgPaylaod()
