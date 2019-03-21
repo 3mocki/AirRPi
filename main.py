@@ -21,7 +21,7 @@ if __name__ == '__main__':
             rad.eId = dca.cId
 
             print("----------------------------------")
-            print("Realtime : " + str(int(time.time())))
+            print("Unixtime : " + str(int(time.time())))
             rad.init()
             time.sleep(10)
 

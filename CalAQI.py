@@ -23,7 +23,9 @@ def no2Aqi(no2aver):
 
 # 1 hour
 def o3Aqi_1(o3aver_1):
-    if 0.125 <= o3aver_1 <= 0.164:
+    if 0 <= o3aver_1 <= 0.124:
+        return 0
+    elif 0.125 <= o3aver_1 <= 0.164:
         o3aqi = (((o3aver_1-0.125) * (150-101)) / (0.164-0.125)) + 101
         return o3aqi
     elif 0.165 <= o3aver_1 <= 0.204:
