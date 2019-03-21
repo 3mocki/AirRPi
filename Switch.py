@@ -8,6 +8,6 @@ def init_Switch():
 
 if __name__== '__main__':
     init_Switch()
-
-    if GPIO.input(6) == 1:
-        os.system("python3 Collector.py")
+    while True:
+        if GPIO.input(6) == 1:
+            os.system("python3 Collector.py")
