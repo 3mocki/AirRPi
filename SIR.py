@@ -11,7 +11,7 @@ class SIR_class:
     line = subprocess.getstatusoutput("/sbin/ifconfig | grep ether")
     line2 = str(line)[19:36]
     mac = line2.replace(':', '')
-    rt =""
+    rt = 0
 
     # 1.2 msgHeader[0]
     msgType = SSP_SIRREQ
