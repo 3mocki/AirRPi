@@ -106,5 +106,5 @@ class SIR_class:
     def init(self):
 
         self.fnPackSspSirReq()
-        self.rcvdMsgPayload()
+        self.fnReceiveMsg()
         self.UnpackMsg()
