@@ -11,7 +11,6 @@ class SIR_class:
     line = subprocess.getstatusoutput("/sbin/ifconfig | grep ether")
     line2 = str(line)[19:36]
     mac = line2.replace(':', '')
-    rt = 0
 
     # 1.2 msgHeader[0]
     msgType = SSP_SIRREQ
@@ -39,6 +38,7 @@ class SIR_class:
         return packedMsg # 1.6 return packedMsg
 
     def fnSendSspSirReq(self):
+        global response
         # SM : Idle State => 'Send SSP:SIR-REQ' => Half-SSN Informed State
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         print("| SEN | PACK| SSP:SIR_REQ")
@@ -47,15 +47,10 @@ class SIR_class:
         rt = response.elapsed.total_seconds()
         print('Response Time : ' + str(rt) + 'sec')
 
-        t = response.json()
-        print("| SEN | RCVD| RSP | " + str(t))
-        data = response.text
-        self.json_response = json.loads(data) # json.loads get string from the data
-
     # 3.1 fnRecvMsg()
     def fnReceiveMsg(self):
         # Set Default value in Timer
-        if self.rt > 5:
+        if self.fnSendSspSirReq().rt > 5:
             print("Response time is over 5 sec")
             self.fnPackSspSirReq()  # 3.2 => go to responseTimer 2.0
         else:
@@ -106,5 +101,11 @@ class SIR_class:
     def init(self):
 
         self.fnPackSspSirReq()
+
+        t = response.json()
+        print("| SEN | RCVD| RSP | " + str(t))
+        data = response.text
+        self.json_response = json.loads(data) # json.loads get string from the data
+
         self.fnReceiveMsg()
         self.UnpackMsg()
