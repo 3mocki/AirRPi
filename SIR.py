@@ -38,7 +38,6 @@ class SIR_class:
         return packedMsg # 1.6 return packedMsg
 
     def fnSendSspSirReq(self):
-        global response
         # SM : Idle State => 'Send SSP:SIR-REQ' => Half-SSN Informed State
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         print("| SEN | PACK| SSP:SIR_REQ")
