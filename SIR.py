@@ -38,6 +38,7 @@ class SIR_class:
         return packedMsg # 1.6 return packedMsg
 
     def fnSendSspSirReq(self):
+        global rt
         # SM : Idle State => 'Send SSP:SIR-REQ' => Half-SSN Informed State
         print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
         print("| SEN | PACK| SSP:SIR_REQ")
@@ -54,7 +55,7 @@ class SIR_class:
     # 3.1 fnRecvMsg()
     def fnReceiveMsg(self):
         # Set Default value in Timer
-        if self.fnSendSspSirReq().rt > 5:
+        if rt > 5:
             print("Response time is over 5 sec")
             self.fnPackSspSirReq()  # 3.2 => go to responseTimer 2.0
         else:
