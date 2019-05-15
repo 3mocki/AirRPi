@@ -46,6 +46,11 @@ class SIR_class:
         rt = response.elapsed.total_seconds()
         print('Response Time : ' + str(rt) + 'sec')
 
+        t = response.json()
+        print("| SEN | RCVD| RSP | " + str(t))
+        data = response.text
+        self.json_response = json.loads(data) # json.loads get string from the data
+
     # 3.1 fnRecvMsg()
     def fnReceiveMsg(self):
         # Set Default value in Timer
@@ -100,11 +105,7 @@ class SIR_class:
     def init(self):
 
         self.fnPackSspSirReq()
-
-        t = response.json()
-        print("| SEN | RCVD| RSP | " + str(t))
-        data = response.text
-        self.json_response = json.loads(data) # json.loads get string from the data
+        self.fnSendSspSirReq()
 
         self.fnReceiveMsg()
         self.UnpackMsg()
