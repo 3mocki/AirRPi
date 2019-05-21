@@ -10,7 +10,8 @@ class SIR_class:
     # mac = get_mac()  # 1.3 WiFi MAC Address
     line = subprocess.getstatusoutput("/sbin/ifconfig | grep ether")
     line2 = str(line)[19:36]
-    mac = line2.replace(':', '')
+    # mac = line2.replace(':', '')
+    mac = "b827eb837670"
 
     # 1.2 msgHeader[0]
     msgType = SSP_SIRREQ
@@ -40,7 +41,7 @@ class SIR_class:
     def fnSendSspSirReq(self):
         global rt
         # SM : Idle State => 'Send SSP:SIR-REQ' => Half-SSN Informed State
-        print("| SEN | SET | SIR STATE | " + str(self.currentState) + "=> IDLE STATE")
+        print("| SEN | SET | SIR STATE | " + str(self.currentState) + " => IDLE STATE")
         print("| SEN | PACK| SSP:SIR_REQ")
         response = requests.post(url_1, json=self.fnPackSspSirReq())  # 2.2 fnSendMsg => json
         print("| SEN | SEND| REQ | SSP:SIR-REQ | " + str(self.fnPackSspSirReq()))
@@ -89,7 +90,9 @@ class SIR_class:
             # print("(check)ssn :" + (self.ssn))
         else:
             if self.json_response['payload']['resultCode'] == RESCODE_SSP_SIR_CONFLICT_OF_TEMPORARY_SENSOR_ID:
-                self.fnPackSspSirReq()
+                print("Reject-conflict of Temporary Sensor ID")
+                print("Send SSP SSP:SIR-REQ refer to Block Diagram.")
+                self.fnSendSspSirReq()
             else:
                 print("System shut down. Check the result code in response payload.")
                 quit()

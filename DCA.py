@@ -6,7 +6,7 @@ from State import *
 
 class DCA_class:
     currentState_2 = SSN_INFORMED_STATE
-    sspDCAReqRetries = 0
+    sspDcaReqRetries = 0
     msgType = SSP_DCAREQ
 
     # geoData
@@ -25,7 +25,7 @@ class DCA_class:
     TTI = ""
     MOBF = ""
 
-    def packedMsg(self):
+    def fnPackSspDcaReq(self):
         packedMsg = {
             "header": {
                 "msgType": self.msgType,  # msgHeader[0]
@@ -36,18 +36,23 @@ class DCA_class:
         }
         return packedMsg  # return packedMsg
 
-    def responseTimer(self):
-        global response, rt
+    def fnSendSspDcaReq(self):
+        global rt
         print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> SSN_Informed_State")
         print("| SEN | PACK| SSP:DCA-REQ")
-        response = requests.post(url_1, json=self.packedMsg())
-        print("| SEN | SEND| REQ | SSP:DCA-REQ | " + str(self.packedMsg()))
-        self.stateChange_3()
-        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> Half_CID_Allocated_State")
+        response = requests.post(url_1, json=self.fnPackSspDcaReq())
+        print("| SEN | SEND| REQ | SSP:DCA-REQ | " + str(self.fnPackSspDcaReq()))
+        self.stateChange()
+        print("| SEN | SET | DCA STATE | " + str(self.currentState_2) + "=> Half_CID_Informed_State")
         rt = response.elapsed.total_seconds()
         print('Response Time : ' + str(rt) + 'sec')
 
-    def rcvdMsgPayload(self):
+        t = response.json()
+        print("| SEN | RCVD| RSP | " + str(t))
+        data = response.text
+        self.json_response = json.loads(data)
+
+    def fnReceiveMsg(self):
         if rt > 5:
             print("Response time is exceeded 5 sec")
             self.sspDcaReqRetries += 1
@@ -57,13 +62,14 @@ class DCA_class:
                 print("Maximum Retries => Quit Service")
                 quit()
             else:
-                self.responseTimer()
+                self.stateChange_2(self.sspDcaReqRetries)
+                self.fnSendSspDcaReq()
         else:
             self.verifyMsgHeader()
             if rcvdPayload != RES_FAILED:
                 return rcvdPayload
             else:
-                self.rcvdMsgPaylaod()
+                self.fnReceiveMsg()
 
     def verifyMsgHeader(self):
         global rcvdPayload
@@ -74,8 +80,8 @@ class DCA_class:
         # expLen = rcvdLength - msg.header_size
 
         if rcvdeId == self.eId: # rcvdEndpointId = fnGetTemporarySensorId
-            stateCheckResult = self.stateChange(rcvdType)
-            print("| SEN | SET | DCA STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
+            stateCheckResult = self.stateChange_3(rcvdType)
+            print("| SEN | SET | DCA STATE | " + str(stateCheckResult) + "=> CID_INFORMED_STATE")
             if stateCheckResult == RES_SUCCESS:
                 if rcvdType == self.msgType:
                     # if rcvdLength == expLen:
@@ -93,13 +99,12 @@ class DCA_class:
             # print("(check)cId :" + str(self.cId))
             return RES_SUCCESS
         else:
+            print("System shut down. Check the result code in response payload.")
             return RES_FAILED
 
-    def stateChange(self, rcvdData):
-        if rcvdData == SSP_DCARSP:
-            if self.currentState_2 == 'HALF_CID_ALLOCATED_STATE':
-                self.currentState_2 = HALF_CID_INFORMED_STATE
-                return self.currentState_2
+    def stateChange(self):
+        self.currentState_2 = 'HALF_CID_INFORMED_STATE'
+        return self.currentState_2
 
     def stateChange_2(self, Retries):
         if Retries == 5:
@@ -109,18 +114,23 @@ class DCA_class:
             self.currentState_2 = SSN_INFORMED_STATE
             return self.currentState_2
 
-    def stateChange_3(self):
-        self.currentState_2 = 'HALF_CID_ALLOCATED_STATE'
-        return self.currentState_2
+    def stateChange_3(self, rcvdData):
+        if rcvdData == SSP_DCARSP:
+            if self.currentState_2 == 'HALF_CID_INFORMED_STATE':
+                self.currentState_2 = CID_INFORMED_STATE
+                return self.currentState_2
 
     def init(self):
+        self.fnPackSspDcaReq()
+        self.fnSendSspDcaReq()
 
-        self.responseTimer()
-
-        t = response.json()
-        print("| SEN | RCVD| RSP | " + str(t))
-        data = response.text
-        self.json_response = json.loads(data)
-
-        self.rcvdMsgPayload()
+        self.fnReceiveMsg()
         self.UnpackMsg()
+
+if __name__ == "__main__":
+    dca=DCA_class()
+    dca.fnPackSspDcaReq()
+    dca.fnSendSspDcaReq()
+
+    dca.fnReceiveMsg()
+    dca.UnpackMsg()

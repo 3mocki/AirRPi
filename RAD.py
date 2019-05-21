@@ -7,9 +7,9 @@ from State import *
 
 
 class RAD_class:
-    currentState_3 = CID_INFORMED_STATE
+    currentState_4 = CID_INFORMED_STATE
     sspRadTrnRetries = 0
-    row = [[], [], [], 0, 0, 0, 0, 0, 0, 0]
+    row = [[], [], [], [], [], [], [], [], [], [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # msgHeader[0]
     msgtype = SSP_RADTRN
@@ -25,7 +25,7 @@ class RAD_class:
     # msgHeader[3:5]
     eId = ""
 
-    def packedMsg(self):
+    def fnPackSspRadTrn(self):
         packedMsg = {
             "header": {
                 "msgType": self.msgtype,
@@ -36,65 +36,80 @@ class RAD_class:
         }
         return packedMsg
 
-    def responseTimer(self):
-        global response
-        # print("Timer Working")
-        print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> CID INFORMED STATE")
-        if self.packedMsg() == None:
+    def fnSendSspRadTrn(self):
+        global rt
+        print("| SEN | SET | RAD STATE | " + str(self.currentState_4) + "=> CID INFORMED STATE")
+        if self.fnPackSspRadTrn() == None:
+            print("NULL in row.")
             quit()
+
         else:
-            response = requests.post(url_2, json=self.packedMsg())
-            print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.packedMsg()))
+            response = requests.post(url_2, json=self.fnPackSspRadTrn())
+            print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.fnPackSspRadTrn()))
             self.stateChange()
-            print("| SEN | SET | RAD STATE | " + str(self.currentState_3))
+            print("| SEN | SET | RAD STATE | " + str(self.currentState_4))
             rt = response.elapsed.total_seconds()
             print('Response Time : ' + str(rt) + 'sec')
 
-    # def rcvdMsgPayload(self):
-    #     if self.rt > 5:
-    #         print("Retry Checking response time")
-    #         self.sspRadTrnRetries += 1
-    #         if self.sspRadTrnRetries == 5:
-    #             self.stateChange_2()
-    #             print("| SEN | SET | RAD STATE | " + str(self.currentState_3) + "=> IDLE State")
-    #             quit()
-    #         else:
-    #             self.responseTimer()
-    #     else:
-    #         self.verifyMsgHeader()
-    #         if rcvdPayload != RES_FAILED:
-    #             print("(check)RES_FAILED")
-    #             self.rt = 0
-    #             return rcvdPayload
-    #         else:
-    #             self.rcvdMsgPayload()
-    #
-    # def verifyMsgHeader(self):
-    #     global rcvdPayload
-    #     rcvdType = self.json_response['header']['msgType']  # rcvdMsgType
-    #     rcvdPayload = self.json_response['payload']
-    #     # rcvdLength = len(str(self.rcvdPayload)) # rcvdLenOfPayload
-    #     rcvdeId = self.json_response['header']['endpointId']  # rcvdEndpointId
-    #     # expLen = rcvdLength - msg.header_size
-    #
-    #     if rcvdeId == self.eId:  # rcvdEndpointId = SSN
-    #         stateCheckResult = self.stateChange_3(rcvdType)
-    #         print("| SEN | SET | SIR STATE | " + str(stateCheckResult) + "=> HALF_CID_INFORMED_STATE")
-    #         if stateCheckResult == RES_SUCCESS:
-    #             if rcvdType == self.msgtype:
-    #                 # if rcvdLength == expLen:
-    #                 return rcvdPayload
-    #     else:
-    #         return RES_FAILED
+            t = response.json()
+            print("| SEN | RCVD| RSP | " + str(t))
+            data = response.text
+            self.json_response = json.loads(data)
 
-    # def UnpackMsg(self):
-    #     rcvdMsgPayload = self.json_response['payload']
-    #     print(str(self.rcvdMsgPayload))
+    def fnReceiveMsg(self):
+        if self.rt > 5:
+            print("Retry Checking response time")
+            self.sspRadTrnRetries += 1
+            if self.sspRadTrnRetries == 5:
+                self.stateChange_2()
+                print("| SEN | SET | RAD STATE | " + str(self.currentState_4) + "=> IDLE State")
+                quit()
+            else:
+                self.fnReceiveMsg()
+        else:
+            self.verifyMsgHeader()
+            if rcvdPayload != RES_FAILED:
+                print("(check)RES_FAILED")
+                self.rt = 0
+                return rcvdPayload
+            else:
+                self.fnReceiveMsg()
+
+    def verifyMsgHeader(self):
+        global rcvdPayload
+        rcvdType = self.json_response['header']['msgType']  # rcvdMsgType
+        rcvdPayload = self.json_response['payload']
+        # rcvdLength = len(str(self.rcvdPayload)) # rcvdLenOfPayload
+        rcvdeId = self.json_response['header']['endpointId']  # rcvdEndpointId
+        # expLen = rcvdLength - msg.header_size
+
+        if rcvdeId == self.eId:
+            stateCheckResult = self.stateChange_3
+            if stateCheckResult == RES_SUCCESS:
+                if rcvdType == self.msgtype:
+                    # if rcvdLength == expLen:
+                    return rcvdPayload
+        else:
+            return RES_FAILED
+
+    def UnpackMsg(self):
+        rcvdMsgPayload = self.json_response['payload']
+        print(str(self.rcvdMsgPayload))
 
     def stateChange(self):
-        self.currentState_3 = 'CID ALLOCATED STATE'
+        self.currentState_4 = 'CID_INFORMED_STATE'
+        return self.currentState_4
+
     def stateChange_2(self):
-        self.currentState_3 = IDLE_STATE
+        if self.currentState_4 == 'CID_INFORMED_STATE':
+            self.currentState_4 = IDLE_STATE
+
+        return self.currentState_4
+
+    def stateChange_3(self):
+        if self.currentState_4 == 'CID_INFORMED STATE':
+            return True
+
     def read_RAD(self):
 
         f = open('temp_RAD.csv', 'r')
@@ -126,11 +141,15 @@ class RAD_class:
             self.row[x] = air_sender[x]
             print('RAD_class self.row[' + str(x) + '] => ' + str(self.row[x]))
 
-        self.responseTimer()
-
-        t = response.json()
-        print("| SEN | RCVD| RSP | " + str(t))
-        data = response.text
-        self.json_response = json.loads(data)
-        # self.rcvdMsgPayload()
+        self.fnPackSspRadTrn()
+        self.fnSendSspRadTrn()
+        self.fnReceiveMsg()
         # self.UnpackMsg()
+
+# if __name__ == "__main__":
+#     rad = RAD_class()
+#
+#     rad.read_RAD()
+#     rad.fnPackSspRadTrn()
+#     rad.fnSendSspRadTrn()
+#     rad.fnReceiveMsg()
