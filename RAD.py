@@ -2,7 +2,6 @@ import requests, json, time, csv
 from Msgtype import *
 from ResultCode import *
 from globalVar import *
-from Sender import *
 from Sender2 import *
 from Sender3 import *
 from State import *
@@ -48,14 +47,14 @@ class RAD_class:
         return packedMsg
 
     def fnSendSspRadTrn(self):
-        global rt, response
+        global rt
         print("| SEN | SET | RAD STATE | " + str(self.currentState_4) + "=> CID INFORMED STATE")
         if self.fnPackSspRadTrn() == None:
             print("NULL in row.")
             quit()
 
         else:
-            response = requests.post(url_1, json=self.fnPackSspRadTrn())
+            response = requests.post(url_2, json=self.fnPackSspRadTrn())
             print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.fnPackSspRadTrn()))
             self.stateChange()
             print("| SEN | SET | RAD STATE | " + str(self.currentState_4))
