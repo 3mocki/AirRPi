@@ -184,7 +184,7 @@ class RAD_class:
         self.fnPackSspRadTrn()
         self.fnSendSspRadTrn()
         self.fnReceiveMsg()
-        self.UnpackMsg()
+        # self.UnpackMsg()
 
 # if __name__ == "__main__":
 #     rad = RAD_class()
