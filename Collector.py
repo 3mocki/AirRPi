@@ -1,9 +1,9 @@
 import os, time, csv, board, busio
 import RPi.GPIO as GPIO
 import adafruit_ads1x15.ads1115 as ADS
-from Database import *
-from Database2 import *
-from Database3 import *
+# from Database import *
+# from Database2 import *
+# from Database3 import *
 from Sender import *
 from adafruit_ads1x15.analog_in import AnalogIn
 
@@ -236,20 +236,20 @@ if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
     # delete past air db file
-    os.system("sudo rm -r hour1.db hour8.db hour24.db")
+    # os.system("sudo rm -r hour1.db hour8.db hour24.db")
 
     # create each db file
-    db = MySqlite_1('hour1')
-    db2 = MySqlite_8('hour8')
-    db3 = MySqlite_24('hour24')
+    # db = MySqlite_1('hour1')
+    # db2 = MySqlite_8('hour8')
+    # db3 = MySqlite_24('hour24')
 
-    db.connectDB()
-    db2.connectDB()
-    db3.connectDB()
-
-    db.createTable()
-    db2.createTable()
-    db3.createTable()
+    # db.connectDB()
+    # db2.connectDB()
+    # db3.connectDB()
+    #
+    # db.createTable()
+    # db2.createTable()
+    # db3.createTable()
 
     init_time = int(time.time())
 
@@ -273,14 +273,14 @@ if __name__ == '__main__':
             collect_Data()
             save_to_DS(numberOfData, csvRowCount)
 
-            db.insertData(data[0], data[1], data[2], data[3], data[5], data[8],
-                          data[9])  # timestamp, temp, no2, o3, so2
-            db2.insertData(data[3], data[4], data[8], data[9])  # o3, co
-            db3.insertData(data[6], data[7], data[8], data[9])  # pm10, pm25
-
-            db.commitDB()
-            db2.commitDB()
-            db3.commitDB()
+            # db.insertData(data[0], data[1], data[2], data[3], data[5], data[8],
+            #               data[9])  # timestamp, temp, no2, o3, so2
+            # db2.insertData(data[3], data[4], data[8], data[9])  # o3, co
+            # db3.insertData(data[6], data[7], data[8], data[9])  # pm10, pm25
+            #
+            # db.commitDB()
+            # db2.commitDB()
+            # db3.commitDB()
 
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
@@ -288,8 +288,8 @@ if __name__ == '__main__':
             time.sleep(1)
 
     except KeyboardInterrupt:
-        db.closeDB()
-        db2.closeDB()
-        db3.closeDB()
+        # db.closeDB()
+        # db2.closeDB()
+        # db3.closeDB()
 
         print("Exit")
