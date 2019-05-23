@@ -41,6 +41,8 @@ path_val= [17, 27, 22, 5]
 numberOfData = 0
 csvRowCount = 0
 
+init_time = 0
+
 # set the gpio pins to OUTPUT mode
 def init_gpio():
     GPIO.setmode(GPIO.BCM)
@@ -120,9 +122,6 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def collect_Data():
-    # to avoid 1 empty timestamp
-    data[0] = int(init_time) + 1
-    print(str(data[0]))
     # collecting air data
     for x in range(0, 6):
         init_gpio()
@@ -258,6 +257,8 @@ if __name__ == '__main__':
     try:
         # init_row()
         while True:
+            init_time += 1
+            data[0] = init_time
             data[8] = numberOfData
             data[9] = csvRowCount
 
