@@ -259,6 +259,7 @@ if __name__ == '__main__':
         while True:
             init_time += 1
             data[0] = init_time
+            print(str(data[0]))
             data[8] = numberOfData
             data[9] = csvRowCount
 
