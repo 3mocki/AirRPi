@@ -122,6 +122,7 @@ def write_rad(numberOfData, csvRowCount):
 def collect_Data():
     # to avoid 1 empty timestamp
     data[0] = init_time + 1
+    print(str(data[0]))
     # collecting air data
     for x in range(0, 6):
         init_gpio()
