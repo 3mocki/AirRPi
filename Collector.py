@@ -285,6 +285,8 @@ if __name__ == '__main__':
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
+            time.sleep(1)
+
     except KeyboardInterrupt:
         db.closeDB()
         db2.closeDB()
