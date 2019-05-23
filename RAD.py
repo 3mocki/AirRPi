@@ -48,7 +48,7 @@ class RAD_class:
         return packedMsg
 
     def fnSendSspRadTrn(self):
-        global rt
+        global rt, response
         print("| SEN | SET | RAD STATE | " + str(self.currentState_4) + "=> CID INFORMED STATE")
         if self.fnPackSspRadTrn() == None:
             print("NULL in row.")
