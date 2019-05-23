@@ -3,13 +3,24 @@ from Msgtype import *
 from ResultCode import *
 from globalVar import *
 from Sender import *
+from Sender2 import *
+from Sender3 import *
 from State import *
-
 
 class RAD_class:
     currentState_4 = CID_INFORMED_STATE
     sspRadTrnRetries = 0
-    row = [[], [], [], [], [], [], [], [], [], [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    row = [[], [], [], [], [], [], [], [], [], []]
+    # row = [[1558418902, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045,	-0.106,	-374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418903, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418904, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418905, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418906, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418907, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418908, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418909, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418911, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2],
+    #        [1558418912, '32.882598,-117.234821', 'Q30', 'Q99', 'Q16552', 24.08, -14.446, 0.045, -0.106, -374.228, 2.56, 2.56, 500, 0, 500, 500, 10, 2]]
 
     # msgHeader[0]
     msgtype = SSP_RADTRN
@@ -44,7 +55,7 @@ class RAD_class:
             quit()
 
         else:
-            response = requests.post(url_2, json=self.fnPackSspRadTrn())
+            response = requests.post(url_1, json=self.fnPackSspRadTrn())
             print("| SEN | SEND| REQ | SSP:RAD-REQ | " + str(self.fnPackSspRadTrn()))
             self.stateChange()
             print("| SEN | SET | RAD STATE | " + str(self.currentState_4))
@@ -56,9 +67,11 @@ class RAD_class:
             data = response.text
             self.json_response = json.loads(data)
 
+
     def fnReceiveMsg(self):
-        if self.rt > 5:
-            print("Retry Checking response time")
+        global rt
+        if rt > 5:
+            print("Response time is exceeded 5 sec")
             self.sspRadTrnRetries += 1
             if self.sspRadTrnRetries == 5:
                 self.stateChange_2()
@@ -69,8 +82,6 @@ class RAD_class:
         else:
             self.verifyMsgHeader()
             if rcvdPayload != RES_FAILED:
-                print("(check)RES_FAILED")
-                self.rt = 0
                 return rcvdPayload
             else:
                 self.fnReceiveMsg()
@@ -93,8 +104,19 @@ class RAD_class:
             return RES_FAILED
 
     def UnpackMsg(self):
-        rcvdMsgPayload = self.json_response['payload']
-        print(str(self.rcvdMsgPayload))
+        if self.json_response['payload']['SRF'] == 1:
+            if self.json_response['payload']['CSR'] == 1:
+                print("Continuity of Successful Reception")
+            else:
+                print(self.json_response['payload']['LST'])
+        else:
+            if self.json_response['payload']['RRF'] == 1:
+                if self.json_response['payload']['CRR'] == 1:
+                    print("Continuity of Retransmission Request")
+                else:
+                    print(self.json_response['payload']['LUT'])
+            else:
+                quit()
 
     def stateChange(self):
         self.currentState_4 = 'CID_INFORMED_STATE'
@@ -115,23 +137,42 @@ class RAD_class:
         f = open('temp_RAD.csv', 'r')
         rad_data = csv.reader(f)
 
+        # It is current data from the Sensor
         for idx, line in enumerate(rad_data):
-            air_sender[idx][0] = int(line[0])
-            air_sender[idx][5] = float(line[5])
-            air_sender[idx][6] = float(line[6])
-            air_sender[idx][7] = float(line[7])
-            air_sender[idx][8] = float(line[8])
-            air_sender[idx][9] = float(line[9])
-            air_sender[idx][10] = float(line[10])
-            air_sender[idx][11] = float(line[11])
-            air_sender[idx][12] = int(line[12])
-            air_sender[idx][13] = int(line[13])
-            air_sender[idx][14] = int(line[14])
-            air_sender[idx][15] = int(line[15])
-            air_sender[idx][16] = int(line[16])
-            air_sender[idx][17] = int(line[17])
+            air_sender_2[idx][0] = int(line[0])
+            air_sender_2[idx][5] = float(line[5])
+            air_sender_2[idx][6] = float(line[6])
+            air_sender_2[idx][7] = float(line[7])
+            air_sender_2[idx][8] = float(line[8])
+            air_sender_2[idx][9] = float(line[9])
+            air_sender_2[idx][10] = float(line[10])
+            air_sender_2[idx][11] = float(line[11])
+            air_sender_2[idx][12] = int(line[12])
+            air_sender_2[idx][13] = int(line[13])
+            air_sender_2[idx][14] = int(line[14])
+            air_sender_2[idx][15] = int(line[15])
+            air_sender_2[idx][16] = int(line[16])
+            air_sender_2[idx][17] = int(line[17])
+
+        # duplicate past data from air_sender_2
+        for idx, line in enumerate(rad_data):
+            air_sender_3[idx][0] = int(line[0])
+            air_sender_3[idx][5] = float(line[5])
+            air_sender_3[idx][6] = float(line[6])
+            air_sender_3[idx][7] = float(line[7])
+            air_sender_3[idx][8] = float(line[8])
+            air_sender_3[idx][9] = float(line[9])
+            air_sender_3[idx][10] = float(line[10])
+            air_sender_3[idx][11] = float(line[11])
+            air_sender_3[idx][12] = int(line[12])
+            air_sender_3[idx][13] = int(line[13])
+            air_sender_3[idx][14] = int(line[14])
+            air_sender_3[idx][15] = int(line[15])
+            air_sender_3[idx][16] = int(line[16])
+            air_sender_3[idx][17] = int(line[17])
 
         f.close()
+
 
     def init(self):
 
@@ -144,12 +185,12 @@ class RAD_class:
         self.fnPackSspRadTrn()
         self.fnSendSspRadTrn()
         self.fnReceiveMsg()
-        # self.UnpackMsg()
+        self.UnpackMsg()
 
 # if __name__ == "__main__":
 #     rad = RAD_class()
 #
-#     rad.read_RAD()
 #     rad.fnPackSspRadTrn()
 #     rad.fnSendSspRadTrn()
 #     rad.fnReceiveMsg()
+#     rad.UnpackMsg()

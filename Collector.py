@@ -120,7 +120,8 @@ def write_rad(numberOfData, csvRowCount):
 
 
 def collect_Data():
-    data[0] = int(time.time())
+    # to avoid 1 empty timestamp
+    data[0] = init_time + 1
     # collecting air data
     for x in range(0, 6):
         init_gpio()
@@ -217,7 +218,7 @@ def collect_Data():
             print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
             print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
             print('*******************************')
-    time.sleep(0.8)
+    time.sleep(1)
 
 
 def save_to_DS(r, z):
@@ -250,6 +251,8 @@ if __name__ == '__main__':
     db.createTable()
     db2.createTable()
     db3.createTable()
+
+    init_time = int(time.time())
 
     try:
         # init_row()

@@ -10,8 +10,8 @@ RES_FAILED = 0
 RES_SUCCESS = 1
 TIMESTAMP_SIZE = 4
 
-url_1 = 'http://somnium.me:3000/serverapi'
-url_2 = 'http://somnium.me:8080/serverdatatran'
+url_1 = 'http://somnium.me:5050/serverapi'
+url_2 = 'http://somnium.me:5050/serverdatatran'
 # url_1 = 'http://dev.qualcomminst.com:3500/serverapi'
 
 geo_1 = '32.882598,-117.234821'
