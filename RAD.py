@@ -179,7 +179,7 @@ class RAD_class:
         self.read_RAD()
 
         for x in range(0, 10):
-            self.row[x] = air_sender[x]
+            self.row[x] = air_sender_2[x]
             print('RAD_class self.row[' + str(x) + '] => ' + str(self.row[x]))
 
         self.fnPackSspRadTrn()
