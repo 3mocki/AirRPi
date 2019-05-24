@@ -220,6 +220,7 @@ if __name__ == '__main__':
 
     try:
         while True:
+            start = time.time()
 
             data[0] = int(time.time())
             data[8] = numberOfData
@@ -243,7 +244,8 @@ if __name__ == '__main__':
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
-            time.sleep(1)
+            end = time.time()
+            print("delayed"+str(end-start)+" sec")
 
     except KeyboardInterrupt:
         db.closeDB()
