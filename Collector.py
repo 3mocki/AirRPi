@@ -287,7 +287,7 @@ if __name__ == '__main__':
 
             # schedule.run_pending()
             # time.sleep(0.85)
-            print(end - start)
+            print("delayed :" + str(end - start) + " sec")
 
     except KeyboardInterrupt:
         # db.closeDB()
