@@ -244,9 +244,9 @@ if __name__ == '__main__':
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
             end = time.time()
-            sensing = round(end - start, 10)
+            sensing = end - start
             print("delayed : " + str(end - start) + " sec")
-            timegap = round(1 - sensing, 10)
+            timegap = 1 - sensing
             print("timegap : " + str(timegap) + " sec")
             time.sleep(timegap)
 
