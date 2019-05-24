@@ -17,7 +17,7 @@ if __name__ == '__main__':
         init_time = int(time.time())
         while True:
             start = time.time()
-            init_time += 1
+            init_time += 10
             print("-----------Generate RAD-----------")
             rad = RAD_class()
             rad.eId = dca.cId
