@@ -78,12 +78,12 @@ class MySqlite_1:
                 air_sender[m][15] = self.calAqiSo2
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi =' + str(self.calAqiO3) + ',so2aqi =' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi =' + str(self.calAqiO3) + ',so2aqi =' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
 
         # After 1 hour
         elif 3600 <= i < 28800:
-            self.cursor.execute(
-                ' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM =(SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
+            # self.cursor.execute(
+            #     ' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM =(SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
             for x in range(0, 2):
                 if x == 0:
                     self.avg_no2 = ((i+1)*self.avg_no2 + recent_no2 - self.past_no2) / (i + 1)
@@ -104,11 +104,11 @@ class MySqlite_1:
             self.past_so2 = recent_so2
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi = ' + str(self.calAqiO3) + ',so2aqi = ' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi = ' + str(self.calAqiO3) + ',so2aqi = ' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
 
 
         elif i > 28800:
-            self.cursor.execute(' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM =(SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
+            # self.cursor.execute(' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM =(SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
             for x in range(0, 1):
                 if x == 0:
                     self.avg_no2 = ((i+1)*self.avg_no2 + recent_no2 - self.past_no2) / (i + 1)
@@ -124,7 +124,7 @@ class MySqlite_1:
             self.past_so2 = recent_so2
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',so2aqi = ' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',so2aqi = ' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
 
     def commitDB(self):
         self.db.commit()

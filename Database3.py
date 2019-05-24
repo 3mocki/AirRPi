@@ -58,15 +58,15 @@ class MySqlite_24:
             self.calAqiPm10 = int(pm10Aqi(self.avg_pm10))
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set pm25aqi = ' + str(self.calAqiPm25) + ',pm10aqi = ' + str(self.calAqiPm10) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set pm25aqi = ' + str(self.calAqiPm25) + ',pm10aqi = ' + str(self.calAqiPm10) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
 
             self.past_pm25 = recent_pm25
             self.past_pm10 = recent_pm10
 
         # based on a day
         elif i >= 86400:
-            self.cursor.execute(
-                ' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM = (SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
+            # self.cursor.execute(
+            #     ' DELETE FROM ' + self.AirDataTableName + ' WHERE NUM = (SELECT MIN(NUM) FROM ' + self.AirDataTableName + ' LIMIT 1) ')
             for x in range(0, 2):
                 if x == 0:
                     self.avg_pm25 = ((i+1)*self.avg_pm25 + recent_pm25 - self.past_pm25) / (i + 1)
@@ -79,8 +79,8 @@ class MySqlite_24:
             self.past_pm10 = recent_pm10
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName +
-                                ' set pm25aqi = ' + str(self.calAqiPm25) + ',pm10aqi = ' + str(self.calAqiPm10) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName +
+            #                     ' set pm25aqi = ' + str(self.calAqiPm25) + ',pm10aqi = ' + str(self.calAqiPm10) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName +');')
         if i % 10 == m:
             air_sender[m][16] = self.calAqiPm25
             air_sender[m][17] = self.calAqiPm10
