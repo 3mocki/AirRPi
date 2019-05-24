@@ -32,8 +32,6 @@ path_val= [17, 27, 22, 5]
 numberOfData = 0
 csvRowCount = 0
 
-init_time = 0
-
 # set the gpio pins to OUTPUT mode
 def init_gpio():
     GPIO.setmode(GPIO.BCM)
@@ -189,7 +187,6 @@ def collect_Data():
             print('*******************************')
 
 def save_to_DS(r, z):
-    data[0] = init_time + 1
     if r % 10 == z:
         air_sender[z][0] = data[0]  # timestamp
         air_sender[z][5] = data[1]  # temp
@@ -218,6 +215,7 @@ if __name__ == '__main__':
     # db.createTable()
     # db2.createTable()
     # db3.createTable()
+
     init_time = int(time.time())
     try:
         while True:
@@ -240,7 +238,7 @@ if __name__ == '__main__':
             # db3.commitDB()
 
             save_to_DS(numberOfData, csvRowCount)
-
+            data[0] = int(init_time) + 1
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
