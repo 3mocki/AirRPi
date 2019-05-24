@@ -246,7 +246,7 @@ if __name__ == '__main__':
             end = time.time()
             sensing = end - start
             print("delayed : " + str(end - start) + " sec")
-            timegap = 1 - sensing
+            timegap = abs(1 - sensing)
             time.sleep(timegap)
 
     except KeyboardInterrupt:
