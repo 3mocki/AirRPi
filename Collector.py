@@ -1,4 +1,4 @@
-import os, time, csv, board, busio
+import os, time, csv, board, busio, schedule
 import RPi.GPIO as GPIO
 import adafruit_ads1x15.ads1115 as ADS
 # from Database import *
@@ -218,7 +218,7 @@ def collect_Data():
             print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
             print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
             print('*******************************')
-
+    schedule.every(1).second.do()
 
 def save_to_DS(r, z):
     if r % 10 == z:
@@ -231,6 +231,9 @@ def save_to_DS(r, z):
         air_sender[z][10] = data[6]  # pm10
         air_sender[z][11] = data[7]  # pm25
 
+
+def checkTs():
+    data[0]
 
 if __name__ == '__main__':
     print("=========Operating Sensor=========")
@@ -281,7 +284,7 @@ if __name__ == '__main__':
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
-            time.sleep(1)
+            # time.sleep(1)
 
     except KeyboardInterrupt:
         # db.closeDB()
