@@ -125,7 +125,7 @@ def collect_Data():
     # collecting air data
     for x in range(0, 6):
         init_gpio()
-        print('*******************************')
+        # print('*******************************')
         if x == 0:
             # measuring temperature
             mux_control(x)
@@ -137,7 +137,7 @@ def collect_Data():
                 temp_result = -30
             elif temp_result > 50:
                 temp_result = 50
-            print('Temperature : ' + str(round(temp_result, 2)) + 'degree celcius')
+            # print('Temperature : ' + str(round(temp_result, 2)) + 'degree celcius')
             # choice temperature each sensor
             data[1] = round(temp_result, 2)
 
@@ -147,14 +147,14 @@ def collect_Data():
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             we_value = chan.voltage * 1000
-            print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
+            # print(air_list[x - 1] + ' WE : ' + str(round(we_value, 2)) + 'mV')
 
             # Measuring Auxiliary Electrode
             mux_control(x * 2)
             ads = ADS.ADS1115(i2c)
             chan = AnalogIn(ads, ADS.P0)
             ae_value = chan.voltage * 1000
-            print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
+            # print(air_list[x - 1] + ' AE : ' + str(round(ae_value, 2)) + 'mV')
 
             if x == 1:
                 # no2_Raw_data[1] = round(we_value, 2)
@@ -165,7 +165,7 @@ def collect_Data():
                             sens[x - 1]
                 no2 = round(ppb_value, 3)
                 data[2] = no2
-                print(air_list[x - 1] + ' : ' + str(no2) + 'ppb')
+                # print(air_list[x - 1] + ' : ' + str(no2) + 'ppb')
 
             elif x == 2:
                 # o3_Raw_data[1] = round(we_value, 2)
@@ -176,7 +176,7 @@ def collect_Data():
                             sens[x - 1]
                 o3 = round(ppb_value / 1000, 3)
                 data[3] = o3
-                print(air_list[x - 1] + ' : ' + str(o3) + 'ppm')
+                # print(air_list[x - 1] + ' : ' + str(o3) + 'ppm')
 
             elif x == 3:
                 # co_Raw_data[1] = round(we_value, 2)
@@ -187,7 +187,7 @@ def collect_Data():
                             sens[x - 1]
                 co = round(ppb_value / 1000, 3)
                 data[4] = co
-                print(air_list[x - 1] + ' : ' + str(co) + 'ppm')
+                # print(air_list[x - 1] + ' : ' + str(co) + 'ppm')
 
             elif x == 4:
                 # so2_Raw_data[1] = round(we_value, 2)
@@ -198,9 +198,9 @@ def collect_Data():
                             sens[x - 1]
                 so2 = round(ppb_value, 3)
                 data[5] = so2
-                print(air_list[x - 1] + ' : ' + str(so2) + 'ppb')
-
-            print('n Table = > ' + str(temp))
+            #     print(air_list[x - 1] + ' : ' + str(so2) + 'ppb')
+            #
+            # print('n Table = > ' + str(temp))
 
         elif x == 5:
             mux_control(x * 2 - 1)
@@ -215,9 +215,9 @@ def collect_Data():
             data[6] = pm25
             pm10 = round(ugm3, 3)
             data[7] = pm10
-            print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
-            print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
-            print('*******************************')
+            # print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
+            # print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
+            # print('*******************************')
 
 def save_to_DS(r, z):
     if r % 10 == z:
@@ -231,7 +231,7 @@ def save_to_DS(r, z):
         air_sender[z][11] = data[7]  # pm25
 
 if __name__ == '__main__':
-    print("=========Operating Sensor=========")
+    # print("=========Operating Sensor=========")
 
     # delete past air db file
     # os.system("sudo rm -r hour1.db hour8.db hour24.db")
@@ -264,8 +264,8 @@ if __name__ == '__main__':
             # co_Raw_data[0] = numberOfData
             # so2_Raw_data[0] = numberOfData
 
-            print('Data Number:' + str(data[8]))
-            print('CSVR Number:' + str(data[9]))
+            # print('Data Number:' + str(data[8]))
+            # print('CSVR Number:' + str(data[9]))
 
             collect_Data()
             save_to_DS(numberOfData, csvRowCount)
