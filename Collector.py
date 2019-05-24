@@ -218,7 +218,6 @@ def collect_Data():
             print(air_list[x - 1] + ' : ' + str(pm25) + 'ug/m^3')
             print(air_list[x] + ' : ' + str(pm10) + 'ug/m^3')
             print('*******************************')
-    schedule.every(1).second.do()
 
 def save_to_DS(r, z):
     if r % 10 == z:
@@ -268,8 +267,7 @@ if __name__ == '__main__':
 
             print('Data Number:' + str(data[8]))
             print('CSVR Number:' + str(data[9]))
-
-            collect_Data()
+            schedule.every(1).second.do(collect_Data())
             save_to_DS(numberOfData, csvRowCount)
 
             # db.insertData(data[0], data[1], data[2], data[3], data[5], data[8],
