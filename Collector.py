@@ -253,7 +253,7 @@ if __name__ == '__main__':
     # db2.createTable()
     # db3.createTable()
 
-    schedule.every(0.85).second.do(collect_Data)
+    schedule.every(1).second.do(collect_Data)
 
     try:
         # init_row()
@@ -286,7 +286,7 @@ if __name__ == '__main__':
             # time.sleep(1)
 
             schedule.run_pending()
-            time.sleep(1)
+            time.sleep(0.85)
 
     except KeyboardInterrupt:
         # db.closeDB()
