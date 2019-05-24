@@ -246,6 +246,8 @@ if __name__ == '__main__':
 
             end = time.time()
             sensing = end - start
+            if sensing > 1:
+                sensing = 0
             print("delayed : " + str(end - start) + " sec")
             timegap = 1 - sensing
             time.sleep(timegap)
