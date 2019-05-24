@@ -14,15 +14,16 @@ if __name__ == '__main__':
         dca = DCA_class()
         dca.eId = sir.ssn
         dca.init()
-
+        init_time = int(time.time())
         while True:
             start = time.time()
+            init_time += 1
             print("-----------Generate RAD-----------")
             rad = RAD_class()
             rad.eId = dca.cId
 
             print("----------------------------------")
-            print("Real Unixtime : " + str(int(time.time())))
+            print("Real Unixtime : " + str(int(init_time())))
             rad.init()
             end = time.time()
             communicating = end - start
