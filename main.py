@@ -23,7 +23,7 @@ if __name__ == '__main__':
             rad.eId = dca.cId
 
             print("----------------------------------")
-            print("Real Unixtime : " + str(int(init_time())))
+            print("Real Unixtime : " + str(init_time()))
             rad.init()
             end = time.time()
             communicating = end - start
