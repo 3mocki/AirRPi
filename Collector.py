@@ -230,10 +230,6 @@ def save_to_DS(r, z):
         air_sender[z][10] = data[6]  # pm10
         air_sender[z][11] = data[7]  # pm25
 
-
-def checkTs():
-    data[0]
-
 if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
@@ -286,7 +282,7 @@ if __name__ == '__main__':
             # time.sleep(1)
 
             schedule.run_pending()
-            time.sleep(0.85)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         # db.closeDB()
