@@ -189,7 +189,7 @@ def collect_Data():
             print('*******************************')
 
 def save_to_DS(r, z):
-    data[0] = int(time.time())
+    data[0] = init_time + 1
     if r % 10 == z:
         air_sender[z][0] = data[0]  # timestamp
         air_sender[z][5] = data[1]  # temp
@@ -218,6 +218,7 @@ if __name__ == '__main__':
     # db.createTable()
     # db2.createTable()
     # db3.createTable()
+    init_time = int(time.time())
     try:
         while True:
             start = time.time()
@@ -244,9 +245,9 @@ if __name__ == '__main__':
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
             end = time.time()
-            sensing = end - start
+            sensing = round(end - start, 10)
             print("delayed : " + str(end - start) + " sec")
-            timegap = 1 - sensing
+            timegap = round(1 - sensing, 10)
             print("timegap : " + str(timegap) + " sec")
             time.sleep(timegap)
 
