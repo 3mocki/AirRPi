@@ -245,8 +245,10 @@ if __name__ == '__main__':
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
             end = time.time()
-            print("delayed"+str(end-start)+" sec")
-
+            sensing = end - start
+            print("delayed" + str(end - start) + " sec")
+            timegap = 1 - sensing
+            time.sleep(timegap)
     except KeyboardInterrupt:
         db.closeDB()
         db2.closeDB()
