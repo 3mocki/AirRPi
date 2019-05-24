@@ -219,6 +219,8 @@ if __name__ == '__main__':
     init_time = int(time.time())
     try:
         while True:
+            init_time += 1
+            data[0] = init_time
             start = time.time()
             data[8] = numberOfData
             data[9] = csvRowCount
@@ -238,7 +240,6 @@ if __name__ == '__main__':
             # db3.commitDB()
 
             save_to_DS(numberOfData, csvRowCount)
-            data[0] = int(init_time) + 1
             # write_raw()
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
