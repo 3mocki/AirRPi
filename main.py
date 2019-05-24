@@ -21,9 +21,8 @@ if __name__ == '__main__':
             print("-----------Generate RAD-----------")
             rad = RAD_class()
             rad.eId = dca.cId
-
             print("----------------------------------")
-            print("Real Unixtime : " + str(init_time()))
+            print("Real Unixtime : " + int(init_time()))
             rad.init()
             end = time.time()
             communicating = end - start
