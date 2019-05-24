@@ -253,6 +253,8 @@ if __name__ == '__main__':
     # db2.createTable()
     # db3.createTable()
 
+    schedule.every(1).second.do(collect_Data)
+
     try:
         # init_row()
         while True:
@@ -267,7 +269,6 @@ if __name__ == '__main__':
 
             print('Data Number:' + str(data[8]))
             print('CSVR Number:' + str(data[9]))
-            schedule.every(1).second.do(collect_Data)
             save_to_DS(numberOfData, csvRowCount)
 
             # db.insertData(data[0], data[1], data[2], data[3], data[5], data[8],
@@ -283,6 +284,9 @@ if __name__ == '__main__':
             numberOfData, csvRowCount = write_rad(numberOfData, csvRowCount)
 
             # time.sleep(1)
+
+            schedule.run_pending()
+            time.sleep(1)
 
     except KeyboardInterrupt:
         # db.closeDB()
