@@ -31,9 +31,9 @@ class MySqlite_1:
                             ' (num INTEGER PRIMARY KEY, ts INT, temp FLOAT, no2 FLOAT, o3 FLOAT, so2 FLOAT, no2aqi INT, o3aqi INT, so2aqi INT) ')
 
     def insertData(self, timestamp, temp, no2, o3, so2, i, m):
-        self.cursor.execute(' INSERT INTO ' + self.AirDataTableName +
-                            ' (ts, temp, no2, o3, so2, no2aqi, o3aqi, so2aqi) values(?, ?, ?, ?, ?, ?, ?, ?);',
-                            (timestamp, temp, no2, o3, so2, 0, 0, 0))
+        # self.cursor.execute(' INSERT INTO ' + self.AirDataTableName +
+        #                     ' (ts, temp, no2, o3, so2, no2aqi, o3aqi, so2aqi) values(?, ?, ?, ?, ?, ?, ?, ?);',
+        #                     (timestamp, temp, no2, o3, so2, 0, 0, 0))
         recent_no2 = no2
         recent_o3 = o3
         recent_so2 = so2
@@ -52,7 +52,7 @@ class MySqlite_1:
             air_sender[i][15] = self.calAqiSo2
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi =' + str(self.calAqiO3) + ',so2aqi =' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName + ' set no2aqi =' + str(self.calAqiNo2) + ',o3aqi =' + str(self.calAqiO3) + ',so2aqi =' + str(self.calAqiSo2) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
 
             self.past_no2 = recent_no2
             self.past_o3 = recent_o3

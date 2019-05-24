@@ -29,9 +29,9 @@ class MySqlite_8:
                             ' ( num INTEGER PRIMARY KEY, o3 FLOAT, co FLOAT, o3aqi INT, co_aqi INT)')
 
     def insertData(self, o3, co, i, m):
-        self.cursor.execute(' INSERT INTO ' + self.AirDataTableName +
-                            ' (o3, co, o3aqi, co_aqi) values(?, ?, ?, ?);',
-                            (o3, co, 0, 0))
+        # self.cursor.execute(' INSERT INTO ' + self.AirDataTableName +
+        #                     ' (o3, co, o3aqi, co_aqi) values(?, ?, ?, ?);',
+        #                     (o3, co, 0, 0))
         recent_o3 = o3
         recent_co = co
 
@@ -41,9 +41,9 @@ class MySqlite_8:
             air_sender[i][14] = self.calAqiCo
 
             # calAqiData is sent to Communication Script
-            self.cursor.execute(' UPDATE ' + self.AirDataTableName +
-                                ' set co_aqi = ' + str(
-                self.calAqiCo) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
+            # self.cursor.execute(' UPDATE ' + self.AirDataTableName +
+            #                     ' set co_aqi = ' + str(
+            #     self.calAqiCo) + ' WHERE NUM = (SELECT MAX(NUM) FROM ' + self.AirDataTableName + ');')
 
             self.past_co = recent_co
 

@@ -203,21 +203,21 @@ def save_to_DS(r, z):
 if __name__ == '__main__':
     print("=========Operating Sensor=========")
 
-    # delete past air db file
-    os.system("sudo rm -r hour1.db hour8.db hour24.db")
+    # # delete past air db file
+    # os.system("sudo rm -r hour1.db hour8.db hour24.db")
 
     # create each db file
     db = MySqlite_1('hour1')
     db2 = MySqlite_8('hour8')
     db3 = MySqlite_24('hour24')
 
-    db.connectDB()
-    db2.connectDB()
-    db3.connectDB()
-
-    db.createTable()
-    db2.createTable()
-    db3.createTable()
+    # db.connectDB()
+    # db2.connectDB()
+    # db3.connectDB()
+    #
+    # db.createTable()
+    # db2.createTable()
+    # db3.createTable()
     try:
         while True:
             start = time.time()
@@ -234,9 +234,9 @@ if __name__ == '__main__':
             db2.insertData(data[3], data[4], data[8], data[9])  # o3, co
             db3.insertData(data[6], data[7], data[8], data[9])  # pm10, pm25
 
-            db.commitDB()
-            db2.commitDB()
-            db3.commitDB()
+            # db.commitDB()
+            # db2.commitDB()
+            # db3.commitDB()
 
             save_to_DS(numberOfData, csvRowCount)
 
@@ -250,8 +250,8 @@ if __name__ == '__main__':
             time.sleep(timegap)
 
     except KeyboardInterrupt:
-        db.closeDB()
-        db2.closeDB()
-        db3.closeDB()
+        # db.closeDB()
+        # db2.closeDB()
+        # db3.closeDB()
 
         print("Exit")
