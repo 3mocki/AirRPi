@@ -16,6 +16,7 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # calibration data of 25-000160 Indoor Sensor, Unit is mV
+# WE_e
 we_zero = [295, 391, 247, 387]
 ae_zero = [283, 389, 269, 275]
 sens = [0.228, 0.399, 0.267, 0.318]

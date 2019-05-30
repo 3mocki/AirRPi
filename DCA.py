@@ -94,7 +94,7 @@ class DCA_class:
             self.cId = self.json_response['payload']['cid']
             self.MTI = self.json_response['payload']['mti']
             self.TTI = self.json_response['payload']['tti']
-            self.MOBF = self.json_response['payload']['mobf']
+            # self.MOBF = self.json_response['payload']['mobf']
             print("| SEN | UNPK| PYLD| SSP:DCA-RSP")
             # print("(check)cId :" + str(self.cId))
             return RES_SUCCESS
