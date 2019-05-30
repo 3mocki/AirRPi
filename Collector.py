@@ -21,10 +21,16 @@ ae_zero = [282, 388, 296, 255]
 sens = [0.228, 0.399, 0.267, 0.318]
 
 # temp_n is going to no2, o3, co, so2 in 2 X 2 list, Unit is mV
-temp_n = [[1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70],
-          [0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87],
-          [1.40, 1.03, 0.85, 0.62, 0.30, 0.03, -0.25, -0.48, -0.80],
-          [0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]]
+# temp_n = [[1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70],
+#           [0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87],
+#           [1.40, 1.03, 0.85, 0.62, 0.30, 0.03, -0.25, -0.48, -0.80],
+#           [0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]]
+temp_n = [[0.8, 0.8, 1, 1.2, 1.6, 1.8, 1.9, 2.5, 3.6],
+          [1, 1.2, 1.2, 1.6, 1.7, 2, 2.1, 3.4, 4.6],
+          [1, 1, 1, 1, -0.2, -0.9, -1.5, -1.5, -1.5],
+          [1.3, 1.3, 1.3, 1.2, 0.9, 0.4, 0.4, 0.4, 0.4]]
+
+
 
 # pin number initialization
 path_val= [17, 27, 22, 5]
@@ -34,15 +40,10 @@ csvRowCount = 0
 
 # set the gpio pins to OUTPUT mode
 def init_gpio():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(path_val[0], GPIO.OUT)
-    GPIO.output(path_val[0], 0)
-    GPIO.setup(path_val[1], GPIO.OUT)
-    GPIO.output(path_val[1], 0)
-    GPIO.setup(path_val[2], GPIO.OUT)
-    GPIO.output(path_val[2], 0)
-    GPIO.setup(path_val[3], GPIO.OUT)
-    GPIO.output(path_val[3], 0)
+    for pin in path_val:
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
 
 # mux controlling function
 def mux_control(num):
@@ -77,7 +78,6 @@ def temp_choice(tmp, x):
     elif 40 <= tmp <= 50:
         return temp_n[x - 1][8]
 
-
 def write_rad(numberOfData, csvRowCount):
     if csvRowCount + 1 == 10:
         f = open('temp_RAD.csv', 'w', newline='')
@@ -94,7 +94,6 @@ def write_rad(numberOfData, csvRowCount):
         numberOfData += 1
         csvRowCount += 1
     return numberOfData, csvRowCount
-
 
 def collect_Data():
     # collecting air data
