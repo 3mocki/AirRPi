@@ -160,7 +160,7 @@ def collect_Data():
             elif x == 4:
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
-                ppb_value = ((we_value - we_zero[x - 1]) - 0 - temp / \
+                ppb_value = ((we_value - we_zero[x - 1])) - temp / \
                             sens[x - 1]
                 so2 = round(ppb_value, 3)
                 data[5] = so2
