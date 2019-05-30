@@ -16,8 +16,8 @@ air_list = ['no2', 'o3', 'co', 'so2', 'pm25', 'pm10']
 data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # calibration data of 25-000160 Indoor Sensor, Unit is mV
-we_zero = [295, 391, 347, 345]
-ae_zero = [282, 388, 296, 255]
+we_zero = [295, 391, 247, 387]
+ae_zero = [283, 389, 269, 275]
 sens = [0.228, 0.399, 0.267, 0.318]
 
 # temp_n is going to no2, o3, co, so2 in 2 X 2 list, Unit is mV
@@ -26,9 +26,9 @@ sens = [0.228, 0.399, 0.267, 0.318]
 #           [1.40, 1.03, 0.85, 0.62, 0.30, 0.03, -0.25, -0.48, -0.80],
 #           [0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]]
 temp_n = [[0.8, 0.8, 1, 1.2, 1.6, 1.8, 1.9, 2.5, 3.6],
-          [1, 1.2, 1.2, 1.6, 1.7, 2, 2.1, 3.4, 4.6],
+          [0.1, 0.1, 0.2, 0.3, 0.7, 1, 1.7, 3, 4],
           [1, 1, 1, 1, -0.2, -0.9, -1.5, -1.5, -1.5],
-          [1.3, 1.3, 1.3, 1.2, 0.9, 0.4, 0.4, 0.4, 0.4]]
+          [0, 0, 0, 0, 0, 0, 5, 25, 45]]
 
 
 
@@ -142,7 +142,7 @@ def collect_Data():
             elif x == 2:
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
-                ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
+                ppb_value = ((we_value - we_zero[x - 1]) - (0 - (-1))) - temp * (ae_value - ae_zero[x - 1]) / \
                             sens[x - 1]
                 o3 = round(ppb_value / 1000, 3)
                 data[3] = o3
@@ -160,7 +160,7 @@ def collect_Data():
             elif x == 4:
                 temp = temp_choice(temp_result, x)
                 # calculating ppb & ppm
-                ppb_value = ((we_value - we_zero[x - 1]) - temp * (ae_value - ae_zero[x - 1])) / \
+                ppb_value = ((we_value - we_zero[x - 1]) - 0 - temp / \
                             sens[x - 1]
                 so2 = round(ppb_value, 3)
                 data[5] = so2
